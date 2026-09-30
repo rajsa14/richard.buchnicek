@@ -1,0 +1,1528 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151515">
+<title>Richard Buchníček</title>
+<meta name="description" content="Richard Buchníček: 16 let, designér a vývojář z Prahy, spoluzakladatel Webtixu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@500;700&family=Onest:wght@400;500;600;700&family=Syne:wght@600;800&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+<style>
+  /* Palette: #151515 ink and #A0B2A6 sage carry the page; #FB4B4E red is the one loud accent;
+     plum #824670 and violet #7272AB appear only in small doses for depth.
+     Light sections sit on sage, dark bands (hero, work, quotes, contact) on #151515.
+     Red never sits on sage as text (1.5:1); there it is a fill with ink text, a dot or an underline.
+     Radius rule: controls = pill, cards and frames = 14px, the label = 6px. */
+  :root {
+    --c-ink: #151515; --c-sage: #A0B2A6; --c-red: #FB4B4E; --c-plum: #824670; --c-violet: #7272AB;
+    --bg: var(--c-sage);
+    --bg-2: #98aa9e;
+    --card: #a9baae;
+    --card-2: #b3c2b8;
+    --line: rgb(21 21 21 / .14);
+    --line-2: rgb(21 21 21 / .26);
+    --ink: var(--c-ink);
+    --muted: #3c413e;
+    --accent: var(--c-ink);
+    --brand: var(--c-red);
+    --accent-strong: var(--c-red);
+    --on-accent: var(--c-ink);
+    --tone: var(--c-plum);
+    --glow-rgb: 130 70 112;
+    --shadow: rgb(21 21 21 / .35);
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --body: "Onest", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+    --ease: cubic-bezier(.16, 1, .3, 1);
+    color-scheme: light;
+  }
+  .dark {
+    --bg: var(--c-ink);
+    --bg-2: #1b1b1b;
+    --card: #1d1d1d;
+    --card-2: #242424;
+    --line: rgb(160 178 166 / .14);
+    --line-2: rgb(160 178 166 / .28);
+    --ink: #e6ece8;
+    --muted: var(--c-sage);
+    --accent: var(--c-red);
+    --tone: var(--c-violet);
+    --glow-rgb: 251 75 78;
+    --shadow: #000;
+    color-scheme: dark;
+    background-color: var(--bg); color: var(--ink);
+  }
+  /* A dark band inside a centred .wrap still paints edge to edge */
+  .wrap.dark { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(0 -100vmax); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(640px circle at var(--gx, -1000px) var(--gy, -1000px), rgb(var(--glow-rgb) / .06), transparent 62%); }
+  main { position: relative; z-index: 1; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { width: min(1280px, 100% - 32px); margin-inline: auto; }
+  section { padding-block: clamp(96px, 12vw, 176px); }
+  h2 { margin: 0; font: 800 clamp(40px, 6.4vw, 96px)/1 var(--display); text-transform: uppercase; letter-spacing: -.04em; text-wrap: balance; }
+  .rule { border-top: 1px solid var(--line); }
+  main { counter-reset: ch; }
+  .chap { counter-increment: ch; }
+  .chap::before {
+    content: "(" counter(ch, decimal-leading-zero) ")"; display: block; margin-bottom: clamp(28px, 3.4vw, 48px);
+    font: 500 12px/1 var(--mono); letter-spacing: .14em; color: var(--ink);
+    background: linear-gradient(var(--line-2), var(--line-2)) no-repeat right center / calc(100% - 64px) 1px;
+  }
+  .chap h2[data-scramble]::after { content: "."; color: var(--brand); }
+  .chap.contact h2::after { content: none; }
+  .big-intro { margin: 36px 0 0; font: 500 clamp(22px, 2.6vw, 36px)/1.3 var(--body); letter-spacing: -.015em; max-width: 34ch; text-wrap: pretty; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: .55em; padding: .95em 1.55em; border-radius: 999px;
+    font: 600 15px/1 var(--body); white-space: nowrap; text-decoration: none; cursor: pointer;
+    border: 1px solid var(--line-2); background: var(--card-2); color: var(--ink);
+    transition: transform .45s var(--ease), background .25s, color .25s, border-color .25s;
+  }
+  .btn:hover { border-color: var(--muted); }
+  .btn-accent { background: var(--accent-strong); border-color: var(--accent-strong); color: var(--on-accent); }
+  .btn-accent:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .btn:active { scale: .97; }
+
+  /* Top bar */
+  .bar {
+    position: fixed; inset: 0 0 auto; z-index: 20; padding-top: env(safe-area-inset-top, 0px);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--line);
+  }
+  .bar .wrap { height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .mark { font: 800 18px/1 var(--display); text-decoration: none; letter-spacing: -.05em; }
+  .mark span { color: var(--brand); }
+  .links { display: flex; gap: 22px; }
+  .links a { font: 500 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); text-decoration: none; transition: color .2s; white-space: nowrap; }
+  .links a:hover, .links a[aria-current="page"] { color: var(--ink); }
+  .right { display: flex; align-items: center; gap: 8px; }
+  .seg { display: inline-flex; padding: 3px; border: 1px solid var(--line-2); border-radius: 999px; }
+  .seg button { border: 0; background: none; color: var(--muted); cursor: pointer; font: 500 12px/1 var(--mono); padding: 8px 11px; border-radius: 999px; transition: background .25s, color .25s; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .kbtn { border: 1px solid var(--line-2); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 13px; cursor: pointer; font: 500 12px/1 var(--mono); transition: border-color .2s; white-space: nowrap; }
+  .kbtn:hover { border-color: var(--muted); }
+  .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brand); transform-origin: 0 50%; transform: scaleX(0); }
+  @supports (animation-timeline: scroll()) {
+    .progress { animation: grow linear both; animation-timeline: scroll(root); }
+    @keyframes grow { to { transform: scaleX(1); } }
+  }
+  @media (max-width: 1080px) { .links { display: none; } }
+
+  /* Hero: particle name */
+  .hero { position: relative; height: clamp(520px, 92svh, 940px); padding: 0; }
+  @media (max-width: 700px) { .hero { height: clamp(440px, 70svh, 640px); } }
+  .hero::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+  #field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+  .hero-foot { position: absolute; left: 0; right: 0; bottom: clamp(28px, 5vw, 56px); z-index: 1; pointer-events: none; }
+  .hero-sub { margin: 0; font: 500 clamp(19px, 2vw, 26px)/1.35 var(--body); max-width: 24ch; }
+  .hero-sub span { color: var(--muted); }
+  .hero-top { position: absolute; left: 0; right: 0; top: calc(62px + clamp(20px, 3vw, 36px)); z-index: 1; pointer-events: none; }
+  .hero-top .wrap { display: flex; justify-content: space-between; gap: 16px; font: 500 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+  .hero-top b { color: var(--ink); font-weight: 500; }
+  .hero-top i { font-style: normal; color: var(--brand); }
+  .hero-foot .wrap { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .hint-play { font: 500 12px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--muted); text-align: right; }
+  .hint-play::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 10px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px rgb(var(--glow-rgb) / .2); vertical-align: 1px; }
+  @media (max-width: 700px) { .hint-play, .hero-top .coords { display: none; } }
+
+  /* Logo strip */
+  .logos { padding-block: 0; }
+  .logo-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+  .logo-row a { display: grid; place-items: center; height: clamp(120px, 14vw, 180px); padding: 24px; border-right: 1px solid var(--line); opacity: .55; transition: opacity .3s, background .3s; }
+  .logo-row a:last-child { border-right: 0; }
+  .logo-row a:hover { opacity: 1; background: var(--bg-2); }
+  .logo-row img { width: auto; max-height: 100%; }
+  .lg-webtix img { height: clamp(56px, 6vw, 84px); }
+  .lg-amazon img { height: clamp(34px, 3.6vw, 50px); }
+  .lg-sellect img { height: clamp(26px, 2.8vw, 40px); }
+  @media (max-width: 640px) { .logo-row { grid-template-columns: minmax(0, 1fr); } .logo-row a { border-right: 0; border-bottom: 1px solid var(--line); height: 110px; } .logo-row a:last-child { border-bottom: 0; } }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(48px, 6vw, 96px); align-items: center; }
+  .about-text { margin: 40px 0 0; font: 500 clamp(24px, 2.9vw, 40px)/1.3 var(--body); letter-spacing: -.015em; max-width: 30ch; }
+  .hot { display: inline; border: 0; padding: 0; background: none; cursor: pointer; font: inherit; letter-spacing: inherit; color: var(--accent); text-decoration: underline; text-decoration-color: var(--brand); text-decoration-thickness: 2px; text-underline-offset: 6px; transition: color .2s; }
+  .hot:hover, .hot[aria-expanded="true"] { color: var(--ink); background: var(--brand); text-decoration-color: transparent; }
+  .likes { margin: 44px 0 0; font: 800 clamp(24px, 3.2vw, 46px)/1.05 var(--display); text-transform: uppercase; letter-spacing: -.04em; color: var(--muted); }
+  .likes .rot { color: var(--tone); }
+  .peek { position: fixed; left: 0; top: 0; z-index: 30; width: 290px; pointer-events: none; background: var(--card-2); border: 1px solid var(--line-2); border-radius: 14px; padding: 16px; box-shadow: 0 30px 70px -20px var(--shadow); opacity: 0; transition: opacity .2s; }
+  .peek.on { opacity: 1; }
+  .pk-logo { height: 120px; display: grid; place-items: center; margin-bottom: 14px; border-radius: 10px; background: radial-gradient(circle at 50% 120%, rgb(var(--glow-rgb) / .35), transparent 70%), var(--bg); border: 1px solid var(--line); }
+  .pk-logo img { max-height: 62px; max-width: 72%; }
+  .peek b { display: block; font: 700 15px/1.3 var(--display); letter-spacing: -.02em; }
+  .peek p { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+  /* The label, night edition */
+  .label {
+    position: relative; margin: 0; justify-self: center; width: min(390px, 100%);
+    background: linear-gradient(160deg, var(--card-2), var(--card)); border: 1px solid var(--line-2); color: var(--ink); border-radius: 6px; padding: 22px 22px 20px;
+    box-shadow: 0 60px 100px -50px rgb(var(--glow-rgb) / .5), 0 30px 60px -30px var(--shadow);
+    transform: perspective(900px) rotate(-3deg) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease);
+  }
+  .label::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .16), transparent 45%); opacity: var(--lo, 0); transition: opacity .3s; }
+  .lbl-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .lbl-name { font: 700 13px/1.35 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+  .lbl-name small { display: block; color: var(--muted); font-weight: 500; }
+  .lbl-age { text-align: right; }
+  .lbl-age small { display: block; font: 500 10px/1 var(--mono); letter-spacing: .12em; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .lbl-age b { font: 800 76px/.8 var(--display); letter-spacing: -.06em; }
+  .lbl-grid { margin: 0; padding-block: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; border-bottom: 1px dashed var(--line-2); }
+  .lbl-grid dt { font: 500 10px/1 var(--mono); letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+  .lbl-grid dd { margin: 5px 0 0; font: 600 15px/1.25 var(--body); }
+  .barcode {
+    margin-top: 16px; height: 54px; opacity: .9;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 3px, transparent 3px 5px, var(--ink) 5px 6px, transparent 6px 9px,
+      var(--ink) 9px 13px, transparent 13px 14px, var(--ink) 14px 15px, transparent 15px 19px,
+      var(--ink) 19px 21px, transparent 21px 23px, var(--ink) 23px 24px, transparent 24px 28px);
+  }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Languages */
+  .lang-list { margin-top: 48px; }
+  .lrow { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, .5fr) minmax(0, 1.2fr); gap: 16px 32px; align-items: center; padding-block: 28px; border-top: 1px solid var(--line); cursor: pointer; outline-offset: 6px; }
+  .lrow:last-child { border-bottom: 1px solid var(--line); }
+  .lrow h3 { margin: 0; font: 800 clamp(30px, 4.8vw, 68px)/1.08 var(--display); text-transform: uppercase; letter-spacing: -.04em; white-space: nowrap; transition: color .25s; }
+  .lrow h3 .ch { display: inline-block; }
+  .lrow:hover h3, .lrow.on h3, .lrow:focus-visible h3 { color: var(--tone); }
+  .lvl { margin: 0; font: 700 22px/1 var(--mono); }
+  .scale { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+  .scale li { border: 1px solid var(--line-2); border-radius: 6px; padding: 12px 0; text-align: center; font: 700 12px/1 var(--mono); color: var(--muted); transition: background .3s, border-color .3s, color .3s; }
+  .scale li.on { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .lrow:hover .scale li.on, .lrow.on .scale li.on, .lrow:focus-visible .scale li.on { background: var(--accent-strong); border-color: var(--accent-strong); color: var(--on-accent); }
+  @media (max-width: 860px) { .lrow { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Work */
+  .cards { margin-top: 48px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+  .card { position: relative; isolation: isolate; overflow: hidden; border-radius: 14px; background: var(--card); border: 1px solid var(--line); padding: clamp(22px, 3vw, 36px); display: flex; flex-direction: column; gap: 16px; transition: border-color .3s; }
+  .card::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .3s; background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--glow-rgb) / .14), transparent 60%); }
+  .card:hover { border-color: var(--line-2); }
+  .card:hover::before { opacity: 1; }
+  .card h3 { margin: 0; font: 800 clamp(28px, 3.2vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: -.045em; }
+  .card p { margin: 0; color: var(--muted); max-width: 44ch; }
+  .card p b { color: var(--ink); font-weight: 600; }
+  .stage { border-radius: 10px; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; background: radial-gradient(80% 90% at 50% 110%, rgb(var(--glow-rgb) / .28), transparent 70%), var(--bg); }
+  .webtix { grid-column: span 7; grid-row: span 2; }
+  .webtix .stage { aspect-ratio: 16 / 10; max-width: 100%; }
+  .webtix .stage img { height: 44%; width: auto; transition: transform 1s var(--ease); }
+  .webtix:hover .stage img { transform: scale(1.06) rotate(-3deg); }
+  .sellect, .site { grid-column: span 5; }
+  .sellect .stage { height: 150px; }
+  .sellect .stage img { height: 38px; width: auto; }
+  .card-link { margin-top: auto; font: 500 13px/1 var(--mono); color: var(--accent); text-underline-offset: 5px; }
+  .site .btn { align-self: flex-start; margin-top: auto; }
+  @media (max-width: 860px) { .webtix, .sellect, .site { grid-column: span 12; grid-row: auto; } }
+  /* Catalog: a gallery of every website I've built. Each tile is a browser frame with the real page inside. */
+  .cat-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; }
+  .cat-title { position: relative; margin: 0; font: 800 clamp(44px, 9.4vw, 160px)/.86 var(--display); text-transform: uppercase; letter-spacing: -.055em; }
+  .cat-title .nw { white-space: nowrap; }
+  .cat-title .o { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+  .cat-title sup { color: var(--ink) !important; position: static; vertical-align: top; display: inline-block; margin: .5em 0 0 .5em; font: 500 clamp(14px, 1.4vw, 20px)/1 var(--mono); letter-spacing: 0; color: var(--accent); -webkit-text-stroke: 0; }
+  .cat-side { display: grid; gap: 22px; justify-items: end; padding-bottom: .6em; }
+  .cat-side p { margin: 0; max-width: 30ch; text-align: right; color: var(--muted); font-size: clamp(15px, 1.3vw, 18px); }
+  .filters { display: inline-flex; padding: 3px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--bg-2); }
+  .filters button { border: 0; background: none; color: var(--muted); cursor: pointer; font: 500 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 10px 14px; border-radius: 999px; transition: background .25s, color .25s; white-space: nowrap; }
+  .filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .filters b { font-weight: 500; opacity: .55; margin-left: .35em; }
+  @media (max-width: 860px) { .cat-top { grid-template-columns: minmax(0, 1fr); } .cat-side { justify-items: start; } .cat-side p { text-align: left; } }
+
+  .marq { margin-top: clamp(40px, 5vw, 64px); overflow: hidden; border-block: 1px solid var(--line); white-space: nowrap; user-select: none; }
+  .marq div { display: inline-block; padding: 14px 0; font: 500 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .18em; color: var(--muted); }
+  .marq i { font-style: normal; color: var(--tone); margin-inline: 1.4em; }
+  @media (prefers-reduced-motion: no-preference) { .marq div { animation: marq 38s linear infinite; } @keyframes marq { to { transform: translateX(-50%); } } }
+
+  .gal { margin-top: clamp(48px, 6vw, 88px); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-flow: row dense; gap: clamp(56px, 7vw, 104px) clamp(16px, 2vw, 28px); align-items: start; }
+  .tile { grid-column: span var(--w, 6); display: flex; flex-direction: column; gap: 20px; color: inherit; text-decoration: none; }
+  .tile.low { margin-top: clamp(0px, 6vw, 88px); }
+  .tile[hidden] { display: none; }
+  .tile .browser { position: relative; box-shadow: 0 50px 90px -60px var(--shadow); transition: border-color .4s, transform .8s var(--ease), box-shadow .6s; }
+  .tile:hover .browser, .tile:focus-visible .browser { border-color: var(--muted); transform: translateY(-8px); box-shadow: 0 60px 110px -50px rgb(var(--glow-rgb) / .45), 0 40px 80px -50px var(--shadow); }
+  .tile:focus-visible { outline: none; }
+  .tile:focus-visible .browser { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .b-dots { position: absolute; left: 16px; display: flex; gap: 6px; }
+  .b-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line-2); }
+  .tile .b-view { aspect-ratio: var(--ar, 16 / 10); }
+  .t-cap { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 18px; align-items: start; padding-inline: 2px; }
+  .t-no { grid-row: span 2; font: 800 clamp(34px, 3.4vw, 52px)/.9 var(--display); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px var(--line-2); transition: -webkit-text-stroke-color .4s, color .4s; }
+  .tile:hover .t-no { color: var(--brand); -webkit-text-stroke-color: var(--brand); }
+  .t-name { font: 800 clamp(22px, 2.2vw, 32px)/1.05 var(--display); text-transform: uppercase; letter-spacing: -.035em; }
+  .t-kind { grid-column: 2; color: var(--muted); font-size: 15px; line-height: 1.4; }
+  .c-tag { grid-column: 3; grid-row: 1; display: inline-flex; align-items: center; gap: 8px; font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--muted); white-space: nowrap; }
+  .c-tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--line-2); }
+  .c-tag.live { color: var(--ink); border-color: color-mix(in srgb, var(--brand) 55%, transparent); }
+  .c-tag.live::before { background: var(--c-red); box-shadow: 0 0 0 3px rgb(251 75 78 / .25); }
+  .c-tag.here::before { background: var(--brand); }
+  @media (max-width: 860px) { .tile { grid-column: span 12; } .tile.low { margin-top: 0; } .tile { --ar: 16 / 11 !important; } }
+  @media (max-width: 520px) { .t-cap { grid-template-columns: auto minmax(0, 1fr); } .c-tag { grid-column: 2; grid-row: 3; justify-self: start; margin-top: 6px; } }
+
+  /* Hand-built previews for the two sites that are not concepts */
+  .pv { position: absolute; inset: 0; overflow: hidden; display: grid; place-items: center; --ink: #e6ece8; --muted: var(--c-sage); --glow-rgb: 251 75 78; color: var(--ink); }
+  .pv-webtix { background: radial-gradient(70% 90% at 50% 115%, rgb(var(--glow-rgb) / .55), transparent 70%), radial-gradient(40% 50% at 85% 10%, rgb(var(--glow-rgb) / .18), transparent 70%), var(--c-ink); }
+  .pv-webtix::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgb(255 255 255 / .04) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / .04) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(circle at 50% 60%, #000, transparent 75%); }
+  .pv-webtix .in { position: relative; display: grid; justify-items: center; gap: clamp(12px, 1.6vw, 22px); text-align: center; padding: 24px; }
+  .pv-webtix img { height: clamp(52px, 7vw, 104px); width: auto; transition: transform 1.2s var(--ease); }
+  .tile:hover .pv-webtix img { transform: rotate(-8deg) scale(1.08); }
+  .pv-webtix b { font: 800 clamp(20px, 3vw, 44px)/1 var(--display); letter-spacing: -.045em; text-transform: uppercase; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .chips span { font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 8px 12px; border-radius: 999px; border: 1px solid rgb(255 255 255 / .14); background: rgb(255 255 255 / .04); color: var(--ink); transition: background .4s, border-color .4s; transition-delay: calc(var(--i) * 70ms); }
+  .tile:hover .chips span { background: var(--accent-strong); border-color: var(--accent-strong); }
+  .pv-rb { background: var(--c-ink); place-items: stretch; }
+  .pv-rb .in { display: flex; flex-direction: column; justify-content: space-between; padding: clamp(14px, 2vw, 24px); }
+  .pv-rb .top { display: flex; justify-content: space-between; font: 500 10px/1 var(--mono); letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+  .pv-rb .top b { font: 800 14px/1 var(--display); color: var(--ink); letter-spacing: -.05em; }
+  .pv-rb .top b span { color: var(--brand); }
+  .pv-rb .nm { font: 800 clamp(26px, 3.6vw, 56px)/.88 var(--display); letter-spacing: -.05em; text-transform: uppercase; background: radial-gradient(circle, var(--ink) 1.1px, transparent 1.5px) 0 0 / 5px 5px; -webkit-background-clip: text; background-clip: text; color: transparent; transition: letter-spacing .9s var(--ease); }
+  .tile:hover .pv-rb .nm { letter-spacing: -.02em; }
+  .pv-rb .ft { font: 500 clamp(12px, 1.1vw, 15px)/1.3 var(--body); color: var(--ink); }
+  .pv-rb .ft span { color: var(--muted); }
+
+  /* Hover pill inside each preview (pure CSS, follows nothing, so it cannot drift or get stuck) */
+  .t-go { position: absolute; right: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--accent-strong); color: var(--on-accent); font: 600 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; box-shadow: 0 14px 30px -10px rgb(251 75 78 / .45); opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .5s var(--ease); pointer-events: none; }
+  .tile:hover .t-go, .tile:focus-visible .t-go { opacity: 1; transform: none; }
+  @media (hover: none) { .t-go { opacity: 1; transform: none; padding: 8px 12px; font-size: 11px; } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js .gal .tile { opacity: 0; transform: translateY(40px); transition: opacity .8s, transform 1.1s var(--ease); }
+    .js .gal .tile.in { opacity: 1; transform: none; }
+  }
+
+  /* Right now: departure board */
+  .board { margin-top: 48px; border: 1px solid var(--line-2); border-radius: 14px; background: linear-gradient(180deg, var(--card), var(--bg-2)); overflow: hidden; }
+  .b-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 2fr); gap: 8px 32px; align-items: center; padding: 22px clamp(20px, 3vw, 36px); border-bottom: 1px solid var(--line); text-transform: uppercase; transition: background .3s; }
+  .b-row:last-child { border-bottom: 0; }
+  .b-row:hover { background: var(--card-2); }
+  .b-verb { font: 700 clamp(20px, 2.4vw, 32px)/1.15 var(--mono); letter-spacing: .02em; transition: color .3s; }
+  .b-what { font: 500 clamp(14px, 1.3vw, 18px)/1.35 var(--mono); letter-spacing: .04em; color: var(--muted); }
+  .b-row:hover .b-verb { color: var(--tone); }
+  .board-head { display: flex; justify-content: space-between; gap: 16px; padding: 14px clamp(20px, 3vw, 36px); border-bottom: 1px solid var(--line-2); font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+  .board-head b { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 500; }
+  .board-head b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c-red); box-shadow: 0 0 0 0 rgb(251 75 78 / .6); }
+  @media (prefers-reduced-motion: no-preference) { .board-head b::before { animation: ping 2s infinite; } @keyframes ping { 70% { box-shadow: 0 0 0 9px rgb(251 75 78 / 0); } 100% { box-shadow: 0 0 0 0 rgb(251 75 78 / 0); } } }
+  @media (max-width: 700px) { .b-row { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Quotes: swipe deck */
+  .qgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(48px, 6vw, 96px); align-items: center; }
+  .qctrl { margin-top: 36px; }
+  .deck { position: relative; height: clamp(320px, 32vw, 400px); touch-action: pan-y; }
+  .qc { position: absolute; inset: 0; margin: 0; border-radius: 14px; padding: clamp(26px, 3vw, 40px); background: linear-gradient(160deg, var(--card-2), var(--card)); border: 1px solid var(--line-2); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; box-shadow: 0 40px 70px -40px var(--shadow); user-select: none; -webkit-user-select: none; cursor: grab; transition: transform .55s var(--ease), opacity .4s; }
+  .qc::before { content: "\201C"; font: 800 84px/.6 var(--display); color: var(--brand); height: 34px; }
+  .qc.dragging { transition: none; cursor: grabbing; }
+  .qc blockquote { margin: 0; font: 600 clamp(24px, 2.5vw, 34px)/1.2 var(--body); letter-spacing: -.015em; }
+  .qc figcaption { font-size: 15px; color: var(--muted); }
+  .qc figcaption b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 860px) { .qgrid { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Contact */
+  .contact h2 { font-size: clamp(56px, 12vw, 190px); line-height: .96; }
+  .contact h2 .o { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+  .c-meta { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  .c-meta div { padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .c-meta div + div { padding-left: 24px; border-left: 1px solid var(--line); }
+  .c-meta small { display: block; font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin-bottom: 10px; }
+  .c-meta b { font: 600 clamp(16px, 1.5vw, 20px)/1.3 var(--body); }
+  @media (max-width: 700px) { .c-meta { grid-template-columns: minmax(0, 1fr); } .c-meta div + div { padding-left: 0; border-left: 0; } }
+  .endname { position: relative; z-index: 1; overflow: hidden; white-space: nowrap; user-select: none; padding-block: clamp(24px, 4vw, 56px) 0; }
+  .endname div { display: inline-block; font: 800 clamp(64px, 14vw, 230px)/.9 var(--display); letter-spacing: -.055em; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px var(--line-2); }
+  .endname i { font-style: normal; color: var(--brand); -webkit-text-stroke: 0; margin-inline: .25em; }
+  @media (prefers-reduced-motion: no-preference) { .endname div { animation: marq 40s linear infinite; } }
+  .mail { margin-top: 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+  .addr { font: 600 clamp(20px, 2.6vw, 34px)/1.2 var(--body); overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: var(--brand); text-decoration-thickness: 2px; text-underline-offset: 8px; }
+  .magnet { transition: transform .45s var(--ease), background .25s, color .25s, border-color .25s; }
+  footer { position: relative; z-index: 1; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-block: 24px 36px; border-top: 1px solid var(--line); font: 500 12px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
+
+  /* ---------- Browser frame (used by the catalog) ---------- */
+  .browser { border: 1px solid var(--line-2); border-radius: 14px; overflow: hidden; background: var(--card); box-shadow: 0 50px 90px -60px var(--shadow); transition: border-color .3s, transform .6s var(--ease); }
+  .b-bar { position: relative; height: 40px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+  .b-url { font: 500 12px/1 var(--mono); color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px; }
+  .b-view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+  .b-page { position: absolute; left: 0; top: 0; width: 1280px; transform-origin: 0 0; transform: scale(var(--s, .5)) translateY(var(--y, 0px)); transition: transform .9s cubic-bezier(.45, 0, .55, 1); pointer-events: none; }
+
+  dialog.viewer { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: #000; color: var(--ink); }
+  dialog.viewer::backdrop { background: #000; }
+  .v-bar { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+  .v-title { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+  .v-title b { font: 700 16px/1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
+  .v-title span { font: 500 12px/1 var(--mono); color: var(--muted); white-space: nowrap; }
+  .v-actions { display: flex; align-items: center; gap: 8px; }
+  .v-body { height: calc(100% - 60px); display: grid; place-items: center; background: radial-gradient(circle at 50% 0%, #262626, #0d0d0d 70%); }
+  .v-frame { width: 100%; height: 100%; overflow: auto; overscroll-behavior: contain; }
+  .viewer[data-dev="mobile"] .v-frame { width: 390px; max-width: calc(100% - 32px); height: min(844px, calc(100% - 40px)); border-radius: 32px; border: 1px solid var(--line-2); box-shadow: 0 50px 100px -30px var(--shadow); scrollbar-width: none; }
+  .v-host { display: block; position: relative; }
+  @media (max-width: 700px) { .v-actions .seg, .v-title span { display: none; } }
+
+  /* Command palette */
+  dialog.pal { width: min(560px, 100% - 32px); margin: 14vh auto auto; padding: 0; border: 1px solid var(--line-2); border-radius: 14px; background: var(--bg-2); color: var(--ink); box-shadow: 0 40px 100px -20px var(--shadow); }
+  dialog.pal::backdrop { background: rgb(21 21 21 / .6); backdrop-filter: blur(5px); }
+  .pal input { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 18px 20px; font: 500 17px var(--body); color: var(--ink); outline: none; }
+  .pal input::placeholder { color: var(--muted); }
+  .pal ul { list-style: none; margin: 0; padding: 8px; max-height: min(440px, 58vh); overflow: auto; }
+  .pal li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 11px 12px; border-radius: 8px; cursor: pointer; }
+  .pal li small { font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .pal li[aria-selected="true"] { background: var(--card-2); box-shadow: inset 2px 0 0 var(--brand); }
+  .pal li.empty { color: var(--muted); cursor: default; }
+
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 60; translate: -50% 12px; opacity: 0; background: var(--ink); color: var(--bg); padding: 11px 18px; border-radius: 999px; font: 600 14px/1 var(--body); transition: opacity .25s, translate .4s var(--ease); pointer-events: none; }
+  .toast.on { opacity: 1; translate: -50% 0; }
+
+  /* Motion, only when allowed */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-foot .wrap > *, .hero-top .wrap > * { animation: rise 1.1s var(--ease) 1.4s both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+    .js .lrow h3 .ch { opacity: 0; transform: translateY(70%) rotate(10deg); transition: opacity .6s, transform .9s var(--ease); transition-delay: calc(var(--c) * 40ms); }
+    .js .lrow .lvl { opacity: 0; transform: translateY(12px); transition: opacity .6s .35s, transform .8s var(--ease) .35s; }
+    .js .lrow .scale li { opacity: 0; transform: scale(.7); transition: opacity .4s, transform .6s var(--ease), background .3s, border-color .3s, color .3s; transition-delay: calc(.4s + var(--i) * 70ms); }
+    .js .lrow.in h3 .ch, .js .lrow.in .lvl, .js .lrow.in .scale li { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<header class="dark bar">
+  <div class="wrap">
+    <a class="mark" href="#top">RB<span>.</span></a>
+    <nav class="links" aria-label="Main">
+      <a href="#about" data-i18n="navAbout">O mně</a>
+      <a href="#work" data-i18n="navWork">Práce</a>
+      <a href="#catalog" data-i18n="navCatalog">Weby</a>
+      <a href="#contact" data-i18n="navContact">Kontakt</a>
+    </nav>
+    <div class="right">
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" data-lang="cs" aria-pressed="true">CZ</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" class="kbtn" id="openPal" aria-haspopup="dialog">Ctrl K</button>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main>
+  <div id="home">
+    <section class="dark hero" id="top">
+      <h1 class="sr-only">Richard Buchníček</h1>
+      <canvas id="field" aria-hidden="true"></canvas>
+      <div class="hero-top"><div class="wrap"><span><b>Portfolio</b> <i>/</i> 2026</span><span class="coords">50.08° N <i>/</i> 14.44° E</span></div></div>
+      <div class="hero-foot"><div class="wrap"><p class="hero-sub" data-i18n-html="heroSub"></p><p class="hint-play" data-i18n="heroHint"></p></div></div>
+    </section>
+
+    <section class="dark logos" aria-label="Webtix, AMAZON, Sellect">
+      <div class="logo-row">
+        <a class="lg-webtix" href="#work"><img src="logo-webtix.png" alt="Webtix" width="349" height="362"></a>
+        <a class="lg-amazon" href="https://www.gymnazium-amazon.cz" target="_blank" rel="noopener"><img src="logo-amazon.png" alt="Anglicko-české gymnázium AMAZON" width="329" height="97"></a>
+        <a class="lg-sellect" href="https://www.sellect.cz" target="_blank" rel="noopener"><img src="logo-sellect.png" alt="Sellect" width="921" height="227"></a>
+      </div>
+    </section>
+
+    <section id="about" class="wrap chap">
+      <div class="about-grid">
+        <div>
+          <h2 data-scramble data-i18n="aboutTitle">O mně</h2>
+          <p class="about-text" id="aboutText" data-i18n-html="aboutText"></p>
+          <p class="likes"><span data-i18n="likesLabel">Baví mě</span> <span class="rot" id="rot">weby</span></p>
+        </div>
+        <figure class="label" id="label">
+          <div class="lbl-top">
+            <div class="lbl-name">Richard Buchníček<small data-i18n="lblRole">Designér / vývojář</small></div>
+            <div class="lbl-age"><small data-i18n="lblAge">Věk</small><b>16</b></div>
+          </div>
+          <dl class="lbl-grid">
+            <div><dt>Made in</dt><dd data-i18n="lblMadeV">Praha, CZ</dd></div>
+            <div><dt data-i18n="lblLangs">Jazyky</dt><dd>CZ / EN B2 / DE A2</dd></div>
+            <div><dt>Studio</dt><dd>Webtix</dd></div>
+            <div><dt data-i18n="lblJob">Práce</dt><dd>Sellect</dd></div>
+          </dl>
+          <div class="barcode" aria-hidden="true"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section id="langs" class="wrap rule chap">
+      <h2 data-scramble data-i18n="langTitle">Jazyky</h2>
+      <div class="lang-list">
+        <article class="lrow" tabindex="0" data-name="cz" data-greet="AHOJ!">
+          <h3 data-i18n="cz">Čeština</h3>
+          <p class="lvl" data-i18n="native">Rodilý</p>
+          <ol class="scale" aria-hidden="true"><li class="on" style="--i:0">A1</li><li class="on" style="--i:1">A2</li><li class="on" style="--i:2">B1</li><li class="on" style="--i:3">B2</li><li class="on" style="--i:4">C1</li><li class="on" style="--i:5">C2</li></ol>
+        </article>
+        <article class="lrow" tabindex="0" data-name="en" data-greet="HELLO!">
+          <h3 data-i18n="en">Angličtina</h3>
+          <p class="lvl">B2</p>
+          <ol class="scale" aria-hidden="true"><li class="on" style="--i:0">A1</li><li class="on" style="--i:1">A2</li><li class="on" style="--i:2">B1</li><li class="on" style="--i:3">B2</li><li style="--i:4">C1</li><li style="--i:5">C2</li></ol>
+        </article>
+        <article class="lrow" tabindex="0" data-name="de" data-greet="HALLO!">
+          <h3 data-i18n="de">Němčina</h3>
+          <p class="lvl">A2</p>
+          <ol class="scale" aria-hidden="true"><li class="on" style="--i:0">A1</li><li class="on" style="--i:1">A2</li><li style="--i:2">B1</li><li style="--i:3">B2</li><li style="--i:4">C1</li><li style="--i:5">C2</li></ol>
+        </article>
+      </div>
+    </section>
+
+    <section id="work" class="dark wrap rule chap">
+      <h2 data-scramble data-i18n="workTitle">Práce</h2>
+      <div class="cards">
+        <article class="card webtix">
+          <div class="stage"><img src="logo-webtix.png" alt="Webtix" width="349" height="362"></div>
+          <h3>Webtix</h3>
+          <p data-i18n-html="webtixDesc"></p>
+        </article>
+        <article class="card sellect">
+          <div class="stage"><img src="logo-sellect.png" alt="Sellect" width="921" height="227"></div>
+          <p data-i18n-html="sellectDesc"></p>
+          <a class="card-link" href="https://www.sellect.cz" target="_blank" rel="noopener">sellect.cz &#8599;</a>
+        </article>
+        <article class="card site">
+          <h3 data-i18n="siteTitle">Tenhle web</h3>
+          <p data-i18n="siteDesc"></p>
+          <button type="button" class="btn" id="sitePal" data-i18n="sitePal">Otevřít menu</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="catalog" class="wrap rule chap">
+      <div class="cat-top">
+        <h2 class="cat-title"><span class="nw"><span data-i18n="catT1">Postavené</span><sup id="nSup">07</sup></span><br><span class="o" data-i18n="catT2">weby</span></h2>
+        <div class="cat-side">
+          <p data-i18n="catIntro"></p>
+          <div class="filters" role="group" aria-label="Filter" id="catFilters">
+            <button type="button" data-f="all" aria-pressed="true"><span data-i18n="fAll">Vše</span><b id="nAll"></b></button>
+            <button type="button" data-f="live" aria-pressed="false"><span data-i18n="fLive">Živé</span><b id="nLive"></b></button>
+            <button type="button" data-f="concept" aria-pressed="false"><span data-i18n="fConcept">Koncepty</span><b id="nConcept"></b></button>
+          </div>
+        </div>
+      </div>
+      <div class="marq" aria-hidden="true"><div id="marq"></div></div>
+      <div class="gal" id="gal">
+        <a class="tile" href="https://webtixx.netlify.app" target="_blank" rel="noopener" data-kind="live" data-cur="cVisit" style="--w:7">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">webtixx.netlify.app</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cVisit"></span><div class="pv pv-webtix"><div class="in"><img src="logo-webtix.png" alt="" width="349" height="362"><b>Weby podle<br>vašich představ</b><div class="chips"><span style="--i:0" data-i18n="chip1"></span><span style="--i:1" data-i18n="chip2"></span><span style="--i:2" data-i18n="chip3"></span></div></div></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">01</span><span class="t-name">Webtix</span><span class="t-kind" data-i18n="kWebtix"></span><span class="c-tag live" data-i18n="tagLive"></span></div>
+        </a>
+        <a class="tile low" href="#top" data-kind="live" data-cur="cHere" style="--w:5; --ar:1 / 1">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">richard-buchnicek</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cHere"></span><div class="pv pv-rb"><div class="in"><div class="top"><b>RB<span>.</span></b><span>CZ / EN</span></div><div class="nm">Richard<br>Buchníček</div><div class="ft" data-i18n-html="heroSub"></div></div></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">02</span><span class="t-name">Richard Buchníček</span><span class="t-kind" data-i18n="kPortfolio"></span><span class="c-tag here" data-i18n="tagHere"></span></div>
+        </a>
+        <a class="tile" href="#catalog" data-kind="concept" data-cur="cOpen" data-concept="horizont" style="--w:12; --ar:16 / 7.5">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">horizont.test</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cOpen"></span><div class="b-page"></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">03</span><span class="t-name">Horizont</span><span class="t-kind" data-i18n="cHorizont"></span><span class="c-tag" data-i18n="tagConcept"></span></div>
+        </a>
+        <a class="tile" href="#catalog" data-kind="concept" data-cur="cOpen" data-concept="sprint" style="--w:5; --ar:1 / 1">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">sprint.test</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cOpen"></span><div class="b-page"></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">04</span><span class="t-name">Sprint</span><span class="t-kind" data-i18n="cSprint"></span><span class="c-tag" data-i18n="tagConcept"></span></div>
+        </a>
+        <a class="tile low" href="#catalog" data-kind="concept" data-cur="cOpen" data-concept="drop" style="--w:7">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">dropradar.test</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cOpen"></span><div class="b-page"></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">05</span><span class="t-name">Drop Radar</span><span class="t-kind" data-i18n="cDrop"></span><span class="c-tag" data-i18n="tagConcept"></span></div>
+        </a>
+        <a class="tile" href="#catalog" data-kind="concept" data-cur="cOpen" data-concept="echo" style="--w:7">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">echo.test</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cOpen"></span><div class="b-page"></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">06</span><span class="t-name">Echo</span><span class="t-kind" data-i18n="cEcho"></span><span class="c-tag" data-i18n="tagConcept"></span></div>
+        </a>
+        <a class="tile low" href="#catalog" data-kind="concept" data-cur="cOpen" data-concept="lumen" style="--w:5; --ar:1 / 1">
+          <div class="browser"><div class="b-bar"><span class="b-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="b-url">lumen.test</span></div><div class="b-view"><span class="t-go" aria-hidden="true" data-i18n="cOpen"></span><div class="b-page"></div></div></div>
+          <div class="t-cap"><span class="t-no" aria-hidden="true">07</span><span class="t-name">Lumen</span><span class="t-kind" data-i18n="cLumen"></span><span class="c-tag" data-i18n="tagConcept"></span></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="now" class="wrap rule chap">
+      <h2 data-scramble data-i18n="nowTitle">Právě teď</h2>
+      <div class="board" id="board">
+        <div class="board-head"><b data-i18n="boardLive">Živě</b><span class="clock" data-clock></span></div>
+        <div class="b-row"><span class="b-verb" data-i18n="b1"></span><span class="b-what" data-i18n="b1d"></span></div>
+        <div class="b-row"><span class="b-verb" data-i18n="b2"></span><span class="b-what" data-i18n="b2d"></span></div>
+        <div class="b-row"><span class="b-verb" data-i18n="b3"></span><span class="b-what" data-i18n="b3d"></span></div>
+      </div>
+    </section>
+
+    <section id="quotes" class="dark wrap rule chap">
+      <div class="qgrid">
+        <div>
+          <h2 data-scramble data-i18n="quotesTitle">Myšlenky</h2>
+          <div class="qctrl"><button type="button" class="btn" id="qnext"><span data-i18n="nextQuote">Další</span> &rarr;</button></div>
+        </div>
+        <div class="deck" id="deck" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="dark contact wrap rule chap">
+      <h2 data-scramble data-i18n="contactTitle">Napiš mi.</h2>
+      <div class="mail">
+        <a class="addr" id="addr" href="mailto:richard.buchnicek@gmail.com">richard.buchnicek@gmail.com</a>
+        <button type="button" class="btn btn-accent magnet" id="copy" data-i18n="copy">Kopírovat e-mail</button>
+      </div>
+      <div class="c-meta">
+        <div><small data-i18n="mBase">Základna</small><b data-i18n="lblMadeV">Praha, CZ</b></div>
+        <div><small data-i18n="mTime">Místní čas</small><b data-clock></b></div>
+        <div><small data-i18n="mOpen">Beru</small><b data-i18n="mOpenV">Weby, redesigny, spolupráce</b></div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<div class="dark endname" aria-hidden="true"><div>Richard Buchníček<i>.</i>Richard Buchníček<i>.</i>Richard Buchníček<i>.</i>Richard Buchníček<i>.</i></div></div>
+<footer class="dark">
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> Richard Buchníček</span>
+    <a href="#top" data-i18n="backTop">Zpět nahoru</a>
+  </div>
+</footer>
+
+<div class="dark peek" id="peek" aria-hidden="true"></div>
+<div class="dark toast" id="toast" role="status"></div>
+
+<dialog class="dark pal" id="palette" aria-label="Menu">
+  <input id="palq" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-controls="pall" aria-expanded="true">
+  <ul id="pall" role="listbox"></ul>
+</dialog>
+
+<dialog class="dark viewer" id="viewer" aria-label="Web design">
+  <div class="v-bar">
+    <div class="v-title"><b id="vName"></b><span id="vUrl"></span></div>
+    <div class="v-actions">
+      <div class="seg" role="group" aria-label="Device">
+        <button type="button" data-dev="desktop" aria-pressed="true" data-i18n="desktop">Počítač</button>
+        <button type="button" data-dev="mobile" aria-pressed="false" data-i18n="mobile">Mobil</button>
+      </div>
+      <button type="button" class="kbtn" id="vClose" data-i18n="close">Zavřít</button>
+    </div>
+  </div>
+  <div class="v-body"><div class="v-frame" id="vFrame"><div class="v-host" id="vHost"></div></div></div>
+</dialog>
+
+<!-- ============ Web design concepts (rendered in shadow DOM, so their styles stay isolated) ============ -->
+
+<template id="tpl-horizont">
+<style>
+:host{display:block;position:relative;overflow-x:clip;container-type:inline-size;--navy:#111a3b;--coral:#ff7a59;--peach:#ffd0b5;--paper:#f5f6fa;--muted:#5b6480;background:var(--paper);color:var(--navy);font:400 16px/1.6 Onest,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+.w{width:min(1160px,100% - 48px);margin-inline:auto}
+header{position:absolute;inset:0 0 auto;z-index:3;color:#fff}
+header .w{height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font:600 30px/1 "EB Garamond",Georgia,serif}
+.logo span{color:var(--coral)}
+.links{display:flex;gap:34px;font-size:15px}
+.pill{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;border-radius:999px;font-weight:600;font-size:15px;white-space:nowrap}
+.pill.light{background:#fff;color:var(--navy)}
+.pill.coral{background:var(--coral);color:var(--navy)}
+.hero{position:relative;min-height:780px;display:flex;align-items:flex-end;overflow:hidden;color:#fff;padding-bottom:64px;background:linear-gradient(180deg,#0d1640 0%,#26306d 30%,#7d4b7e 55%,#f07a5f 76%,#ffc08f 92%)}
+.sun{position:absolute;left:66%;top:56%;width:340px;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#fff5dc 0 22%,#ffd28f 36%,rgba(255,160,110,0) 68%)}
+.m{position:absolute;left:0;right:0;bottom:0}
+.m1{height:52%;background:#51386b;clip-path:polygon(0 58%,9% 44%,20% 56%,33% 24%,47% 52%,58% 34%,70% 55%,83% 30%,93% 46%,100% 40%,100% 100%,0 100%)}
+.m2{height:38%;background:#2a2150;clip-path:polygon(0 42%,14% 64%,29% 36%,44% 62%,57% 40%,71% 68%,86% 44%,100% 60%,100% 100%,0 100%)}
+.m3{height:20%;background:linear-gradient(180deg,#151235,#0e0c26)}
+.hero .w{position:relative;z-index:2}
+.kick{font-size:13px;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+h1{margin-top:18px;font:500 clamp(54px,8.6cqw,118px)/1.04 "EB Garamond",Georgia,serif;max-width:11ch}
+h1 em{color:var(--peach)}
+.search{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;align-items:center;background:#fff;color:var(--navy);border-radius:22px;padding:10px 10px 10px 28px;max-width:860px;box-shadow:0 30px 60px -30px rgba(10,15,40,.6)}
+.f{padding:8px 16px 8px 0;border-right:1px solid #e3e6ef;margin-right:16px}
+.f:nth-child(3){border-right:0}
+.f span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.f b{font-size:17px;font-weight:600}
+.search .pill{height:58px;padding:0 28px;border-radius:16px}
+section{padding-block:112px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px}
+h2{font:500 clamp(40px,5.4cqw,72px)/1 "EB Garamond",Georgia,serif}
+.more{font-weight:600;border-bottom:2px solid var(--coral);padding-bottom:2px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.scene{aspect-ratio:4/5;border-radius:20px;position:relative;overflow:hidden}
+.scene::before{content:"";position:absolute;width:38%;aspect-ratio:1;border-radius:50%;left:56%;top:24%}
+.scene::after{content:"";position:absolute;inset:auto 0 0;height:48%}
+.s1{background:linear-gradient(180deg,#ffe3b3,#ffab7a 58%,#e8664f)}
+.s1::before{background:#fff6de}
+.s1::after{background:#b8463c;clip-path:polygon(0 40%,8% 40%,8% 22%,18% 22%,18% 48%,28% 48%,28% 30%,40% 30%,40% 52%,52% 52%,52% 18%,60% 18%,60% 44%,72% 44%,72% 28%,84% 28%,84% 50%,100% 50%,100% 100%,0 100%)}
+.s2{background:linear-gradient(180deg,#ffd6de,#ff9fb2 55%,#d9546e)}
+.s2::before{background:#e8364f;left:18%;top:16%;width:48%}
+.s2::after{background:#5b2141;clip-path:polygon(0 70%,20% 30%,34% 52%,50% 12%,66% 50%,80% 34%,100% 62%,100% 100%,0 100%)}
+.s3{background:linear-gradient(180deg,#0b1a2e,#123b4a 50%,#1f6b64)}
+.s3::before{width:130%;left:-15%;top:12%;aspect-ratio:3/1;background:radial-gradient(closest-side,rgba(120,255,200,.6),rgba(120,255,200,0));transform:rotate(-12deg)}
+.s3::after{background:#081119;clip-path:polygon(0 60%,16% 30%,30% 50%,44% 20%,60% 56%,76% 36%,100% 58%,100% 100%,0 100%)}
+.card h3{margin-top:18px;font:600 30px/1.1 "EB Garamond",Georgia,serif}
+.card p{color:var(--muted);font-size:15px}
+.band{background:var(--navy);color:#fff;border-radius:28px;padding:88px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px}
+.band h2{max-width:14ch}
+.band em{color:var(--coral)}
+footer{border-top:1px solid #e1e4ec;padding-block:36px;color:var(--muted);font-size:14px}
+footer .w{display:flex;justify-content:space-between;gap:16px}
+@container (max-width:720px){.links,header .pill{display:none}.hero{min-height:660px}.search{grid-template-columns:1fr;padding:18px;border-radius:18px}.f{border-right:0;border-bottom:1px solid #e3e6ef;margin:0 0 8px;padding:6px 0 10px}.cards{grid-template-columns:1fr}.scene{aspect-ratio:16/11}.band{flex-direction:column;align-items:flex-start;padding:48px 28px}section{padding-block:72px}.head{flex-direction:column;align-items:flex-start}.sun{width:220px}}
+</style>
+<header><div class="w"><div class="logo">Horizont<span>.</span></div><nav class="links"><span>Destinace</span><span>Zážitky</span><span>O nás</span></nav><span class="pill light">Naplánovat cestu</span></div></header>
+<section class="hero"><div class="sun"></div><div class="m m1"></div><div class="m m2"></div><div class="m m3"></div>
+<div class="w"><p class="kick">Cesty na míru od roku 2014</p><h1>Svět je blíž, <em>než si myslíš.</em></h1>
+<div class="search"><div class="f"><span>Kam</span><b>Lisabon</b></div><div class="f"><span>Kdy</span><b>Květen 2027</b></div><div class="f"><span>Kdo</span><b>2 dospělí</b></div><span class="pill coral">Hledat cestu</span></div></div></section>
+<section class="w"><div class="head"><h2>Kam letos?</h2><span class="more">Všechny destinace</span></div>
+<div class="cards"><article class="card"><div class="scene s1"></div><h3>Lisabon</h3><p>6 dní, od 18 900 Kč</p></article><article class="card"><div class="scene s2"></div><h3>Kjóto</h3><p>10 dní, od 46 500 Kč</p></article><article class="card"><div class="scene s3"></div><h3>Island</h3><p>8 dní, od 39 900 Kč</p></article></div></section>
+<section class="w" style="padding-top:0"><div class="band"><h2>Plánujeme my. <em>Ty cestuješ.</em></h2><span class="pill coral">Naplánovat cestu</span></div></section>
+<footer><div class="w"><span>Horizont, cestovní kancelář</span><span>Praha</span></div></footer>
+</template>
+
+<template id="tpl-sprint">
+<style>
+:host{display:block;position:relative;overflow-x:clip;container-type:inline-size;--bg:#0b0b0c;--fg:#f4f4f1;--or:#ff5a1f;--mut:#8f8f8a;--line:#242424;background:var(--bg);color:var(--fg);font:400 16px/1.55 Onest,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+.w{width:min(1180px,100% - 48px);margin-inline:auto}
+.c{font-family:Archivo,"Arial Narrow",sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase;letter-spacing:-.01em}
+header .w{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-size:36px;line-height:1}
+.logo span{color:var(--or)}
+.links{display:flex;gap:30px;font-size:15px;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:var(--or);color:#0b0b0c;font-weight:700;white-space:nowrap}
+.hero{position:relative;overflow:hidden;padding-block:40px 72px;background:repeating-linear-gradient(-55deg,transparent 0 22px,rgba(255,255,255,.035) 22px 23px)}
+.hero .w{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:end}
+h1{font-size:clamp(96px,16cqw,236px);line-height:.8}
+h1 span,.dot{color:var(--or)}
+.next{border:1px solid #2c2c2c;border-radius:22px;padding:28px;background:#121213}
+.next small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.next .t{margin-top:10px;font-size:clamp(56px,7cqw,96px);line-height:.85}
+.next p{margin:14px 0 22px;color:#cfcfca}
+.tape{background:var(--or);color:#0b0b0c;overflow:hidden;white-space:nowrap}
+.tape div{display:inline-block;padding:16px 0;font-size:40px;line-height:1;animation:run 24s linear infinite}
+@keyframes run{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape div{animation:none}}
+section{padding-block:104px}
+h2{font-size:clamp(56px,7cqw,104px);line-height:.85;margin-bottom:40px}
+.row{display:grid;grid-template-columns:120px minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:26px;border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row .d{font-size:44px;line-height:1;color:var(--or)}
+.row b{font-size:22px}
+.row span{color:var(--mut)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.stat{border-radius:22px;background:#141415;border:1px solid #232323;padding:32px}
+.stat .n{font-size:clamp(72px,9cqw,128px);line-height:.85}
+.stat.hot{background:var(--or);color:#0b0b0c;border-color:var(--or)}
+.stat p{margin-top:12px;opacity:.8}
+.cta{text-align:center;padding-block:120px}
+.cta h2{margin-bottom:28px}
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--mut);font-size:14px}
+footer .w{display:flex;justify-content:space-between}
+@container (max-width:720px){.links,header .btn{display:none}.hero .w{grid-template-columns:1fr}.row{grid-template-columns:64px 1fr}.row span{display:none}.stats{grid-template-columns:1fr}.tape div{font-size:28px}section{padding-block:72px}}
+</style>
+<header><div class="w"><div class="logo c">Sprint<span>/</span></div><nav class="links"><span>Tréninky</span><span>Trasy</span><span>Závody</span><span>Klub</span></nav><span class="btn">Přidat se</span></div></header>
+<section class="hero"><div class="w"><h1 class="c">Běhej<br>s námi<span>.</span></h1><div class="next"><small>Příští trénink</small><div class="t c">Út 18:00</div><p>Stromovka, 8 km v pohodovém tempu. Pro všechny úrovně.</p><span class="btn">Přihlásit se</span></div></div></section>
+<div class="tape"><div class="c">Stromovka / Letná / Vyšehrad / Náplavka / Divoká Šárka / Stromovka / Letná / Vyšehrad / Náplavka / Divoká Šárka /&nbsp;</div></div>
+<section class="w"><h2 class="c">Týden</h2>
+<div class="row"><div class="d c">Po</div><b>Intervaly na dráze</b><span>Strahov, 6 km</span><span>Rychle</span></div>
+<div class="row"><div class="d c">Út</div><b>Společný běh</b><span>Stromovka, 8 km</span><span>Pohodově</span></div>
+<div class="row"><div class="d c">Čt</div><b>Kopce</b><span>Vyšehrad, 7 km</span><span>Ostře</span></div>
+<div class="row"><div class="d c">So</div><b>Dlouhý běh</b><span>Divoká Šárka, 16 km</span><span>Vytrvale</span></div>
+</section>
+<section class="w" style="padding-top:0"><div class="stats"><div class="stat"><div class="n c">1 240</div><p>členů v klubu</p></div><div class="stat"><div class="n c">4&times;</div><p>týdně společný trénink</p></div><div class="stat hot"><div class="n c">0 Kč</div><p>za první trénink</p></div></div></section>
+<section class="cta w"><h2 class="c">Start je v úterý<span class="dot">.</span></h2><span class="btn">Přidat se do klubu</span></section>
+<footer><div class="w"><span>Sprint, běžecký klub</span><span>Praha</span></div></footer>
+</template>
+
+<template id="tpl-drop">
+<style>
+:host{display:block;position:relative;overflow-x:clip;container-type:inline-size;--bg:#0a0a0a;--fg:#f2f2f2;--red:#ff3b30;--line:#262626;--mut:#8a8a8a;background:var(--bg);color:var(--fg);font:500 14px/1.5 "JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+.w{width:min(1200px,100% - 48px);margin-inline:auto}
+.x{font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;text-transform:uppercase;letter-spacing:-.03em}
+.tick{background:var(--red);color:#fff;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.tick .w{height:40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+header{border-bottom:1px solid var(--line)}
+header .w{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-size:24px}
+.links{display:flex;gap:28px;text-transform:uppercase;font-size:13px;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 20px;border:1px solid var(--fg);text-transform:uppercase;font-size:13px;font-weight:700}
+.hero{border-bottom:1px solid var(--line)}
+.hero .w{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.hero h1{font-size:clamp(80px,13cqw,190px);line-height:.84;padding-block:56px;border-right:1px solid var(--line)}
+.next{padding:40px 0 40px 40px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.next small{color:var(--mut);text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+.next h3{font-size:clamp(26px,3cqw,38px);line-height:1}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cd div{border:1px solid var(--line);padding:14px 8px;text-align:center;font-size:clamp(24px,2.8cqw,36px);font-weight:700;line-height:1}
+.cd small{display:block;margin-top:6px;font-size:10px;letter-spacing:.08em}
+.filters{display:flex;gap:8px;padding-block:28px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);padding:9px 14px;text-transform:uppercase;font-size:12px;color:var(--mut)}
+.chip.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.item{display:grid;grid-template-columns:150px minmax(0,1.6fr) minmax(0,.8fr) 120px;gap:24px;align-items:center;padding-block:24px;border-top:1px solid var(--line)}
+.item:last-child{border-bottom:1px solid var(--line)}
+.item .date{font-size:40px;line-height:1}
+.item b{display:block;font-family:Archivo,sans-serif;font-weight:800;font-size:20px;text-transform:uppercase}
+.item span{color:var(--mut)}
+.st{justify-self:end;padding:7px 12px;font-size:12px;font-weight:700;text-transform:uppercase;border:1px solid var(--fg)}
+.st.live{background:var(--red);border-color:var(--red);color:#fff}
+.st.soon{border-color:#444;color:var(--mut)}
+section{padding-bottom:96px}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--mut);text-transform:uppercase;font-size:12px}
+footer .w{display:flex;justify-content:space-between}
+@container (max-width:720px){.links,header .btn,.tick .w span:last-child{display:none}.hero .w{grid-template-columns:1fr}.hero h1{border-right:0;border-bottom:1px solid var(--line);padding-block:36px}.next{padding:28px 0}.item{grid-template-columns:1fr auto}.item .date{font-size:28px;grid-column:1/-1}.item > span:not(.st){display:none}}
+</style>
+<div class="tick"><div class="w"><span>Live: Runner 01 'Night' je v prodeji</span><span>Upozornění na každý drop zdarma</span></div></div>
+<header><div class="w"><div class="logo x">Drop/Radar</div><nav class="links"><span>Kalendář</span><span>Raffle</span><span>Značky</span><span>Archiv</span></nav><span class="btn">Upozornění</span></div></header>
+<div class="hero"><div class="w"><h1 class="x">Drop<br>Radar</h1><div class="next"><small>Další drop</small><h3 class="x">Court Low 'Chalk'</h3><div class="cd"><div>02<small>dny</small></div><div>14<small>hod</small></div><div>33<small>min</small></div><div>08<small>sek</small></div></div><span class="btn">Nastavit upozornění</span></div></div></div>
+<section class="w"><div class="filters"><span class="chip on">Vše</span><span class="chip">Live</span><span class="chip">Raffle</span><span class="chip">Brzy</span></div>
+<div class="item"><div class="date x">02.10.</div><div><b>Runner 01 'Night'</b><span>Černá / reflexní</span></div><span>3 490 Kč</span><span class="st live">Live</span></div>
+<div class="item"><div class="date x">04.10.</div><div><b>Court Low 'Chalk'</b><span>Bílá / šedá</span></div><span>2 990 Kč</span><span class="st">Raffle</span></div>
+<div class="item"><div class="date x">09.10.</div><div><b>Trail 9 'Moss'</b><span>Zelená / hnědá</span></div><span>4 190 Kč</span><span class="st">Raffle</span></div>
+<div class="item"><div class="date x">15.10.</div><div><b>Court High 'Varsity'</b><span>Červená / bílá</span></div><span>3 790 Kč</span><span class="st soon">Brzy</span></div>
+<div class="item"><div class="date x">22.10.</div><div><b>Glide 2 'Ice'</b><span>Ledově modrá</span></div><span>4 490 Kč</span><span class="st soon">Brzy</span></div>
+</section>
+<footer><div class="w"><span>Drop Radar</span><span>Kalendář sneaker dropů</span></div></footer>
+</template>
+
+<template id="tpl-echo">
+<style>
+:host{display:block;position:relative;overflow-x:clip;container-type:inline-size;--bg:#0a0b19;--fg:#f4f5fb;--pink:#ff2d75;--mut:#9aa0bf;--line:#23254a;background:var(--bg);color:var(--fg);font:400 16px/1.6 Onest,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+.w{width:min(1200px,100% - 48px);margin-inline:auto}
+.s{font-family:Syne,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.02em}
+header{position:relative;z-index:2}
+header .w{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-size:26px}
+.links{display:flex;gap:30px;font-size:15px;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:var(--pink);color:#0a0b19;font-weight:700;white-space:nowrap}
+.hero{position:relative;overflow:hidden;padding-block:40px 96px}
+.orb{position:absolute;width:760px;aspect-ratio:1;border-radius:50%;right:-160px;top:-220px;background:radial-gradient(circle at 40% 40%,#ff2d75 0%,#ff6a3d 28%,rgba(255,45,117,0) 64%);opacity:.9}
+.orb.b{width:520px;left:-220px;right:auto;top:auto;bottom:-280px;background:radial-gradient(circle,#3d4bff 0%,rgba(61,75,255,0) 62%);opacity:.7}
+.hero .w{position:relative}
+.meta{display:flex;gap:40px;font-size:15px;color:#d9dbee;text-transform:uppercase;letter-spacing:.12em}
+h1{font-size:clamp(48px,17.5cqw,240px);line-height:.8;margin-top:28px}
+.hero .row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:36px}
+.hero p{max-width:36ch;font-size:19px;color:#dcdef0}
+section{padding-block:104px}
+h2{font-size:clamp(48px,6cqw,88px);line-height:.9;margin-bottom:44px}
+.lu{text-align:center;border-block:1px solid var(--line);padding-block:56px}
+.l1{font-size:clamp(44px,6.2cqw,90px);line-height:1}
+.l2{font-size:clamp(26px,3.3cqw,46px);line-height:1.15;margin-top:18px;color:#dfe1f3}
+.l3{font-size:clamp(15px,1.8cqw,24px);line-height:1.5;margin-top:22px;color:var(--mut)}
+.lu i{font-style:normal;color:var(--pink)}
+.tix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.t{border:1px solid var(--line);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:14px;background:#0f1024}
+.t.hot{background:var(--pink);color:#0a0b19;border-color:var(--pink)}
+.t small{text-transform:uppercase;letter-spacing:.12em;font-size:12px;opacity:.85}
+.t .p{font-size:clamp(40px,4.8cqw,62px);line-height:1}
+.t p{opacity:.85}
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--mut);font-size:14px}
+footer .w{display:flex;justify-content:space-between}
+@container (max-width:720px){.links,header .btn{display:none}.hero .row{flex-direction:column;align-items:flex-start}.meta{flex-direction:column;gap:6px}.tix{grid-template-columns:1fr}.orb{width:420px}section{padding-block:72px}}
+</style>
+<header><div class="w"><div class="logo s">Echo</div><nav class="links"><span>Line-up</span><span>Program</span><span>Vstupenky</span><span>Info</span></nav><span class="btn">Vstupenky</span></div></header>
+<section class="hero"><div class="orb"></div><div class="orb b"></div><div class="w"><div class="meta"><span>17-19. 7. 2026</span><span>Praha, Letňany</span><span>3 stage</span></div><h1 class="s">Echo<br>26</h1><div class="row"><p>Tři dny, tři stage a přes čtyřicet jmen. Letní festival, který se nese celým městem.</p><span class="btn">Koupit vstupenky</span></div></div></section>
+<section class="w"><h2 class="s">Line-up</h2><div class="lu"><div class="l1 s">Nora Vex <i>/</i> Kid Paloma</div><div class="l2 s">The Midnight Archive <i>/</i> Solène <i>/</i> Atlas 9 <i>/</i> Hollow Coast</div><div class="l3 s">Mira Kay / Dusk Theory / Vlna / Pale Signal / Oskar Rune / Neon Garden / Tereza Mlha / Static Bloom / Luma</div></div></section>
+<section class="w" style="padding-top:0"><h2 class="s">Vstupenky</h2><div class="tix"><div class="t"><small>Jeden den</small><div class="p s">1 290 Kč</div><p>Vstup na všechny stage v den koupě.</p></div><div class="t hot"><small>Celý víkend</small><div class="p s">2 990 Kč</div><p>Tři dny hudby. Nejoblíbenější volba.</p></div><div class="t"><small>VIP</small><div class="p s">5 490 Kč</div><p>Vlastní vstup, lounge a výhled na hlavní stage.</p></div></div></section>
+<footer><div class="w"><span>Echo Festival 2026</span><span>Praha</span></div></footer>
+</template>
+
+<template id="tpl-lumen">
+<style>
+:host{display:block;position:relative;overflow-x:clip;container-type:inline-size;--paper:#eceef0;--ink:#121418;--mut:#666b73;--line:#cdd1d6;background:var(--paper);color:var(--ink);font:400 16px/1.6 "Inter Tight",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+.w{width:min(1200px,100% - 48px);margin-inline:auto}
+header .w{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}
+.logo{font-weight:600;font-size:22px;letter-spacing:-.03em}
+.links{display:flex;gap:36px;font-size:15px;color:var(--mut)}
+.lnk{font-weight:500;border-bottom:1px solid var(--ink)}
+.hero .w{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:end;padding-block:72px 96px}
+h1{font-weight:300;font-size:clamp(72px,10.4cqw,152px);line-height:.9;letter-spacing:-.05em}
+.hero p{margin-top:28px;max-width:34ch;color:var(--mut);font-size:18px}
+.arch{position:relative;aspect-ratio:4/5;background:linear-gradient(180deg,#dfe3e8,#cfd4da);overflow:hidden}
+.arch i{position:absolute;display:block}
+.a1{left:10%;right:30%;bottom:0;height:62%;background:#f7f8f9;box-shadow:inset -40px 0 0 #e3e6ea}
+.a2{left:44%;right:8%;bottom:0;height:40%;background:#1a1d22}
+.a3{left:16%;width:18%;bottom:26%;height:18%;background:#9fb3c8}
+.a4{left:50%;right:14%;bottom:14%;height:8%;background:#e8b04b}
+.a5{left:0;right:0;bottom:0;height:4%;background:#b8bec6}
+section{padding-block:96px}
+.label{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:28px}
+.p{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) 100px;gap:24px;align-items:baseline;padding-block:26px;border-top:1px solid var(--line);font-size:clamp(22px,2.4cqw,32px);letter-spacing:-.02em}
+.p:last-child{border-bottom:1px solid var(--line)}
+.p span{font-size:16px;color:var(--mut);letter-spacing:0}
+.p span:last-child{text-align:right}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.nums div{padding:40px 0 40px 28px;border-right:1px solid var(--line)}
+.nums div:first-child{padding-left:0}
+.nums div:last-child{border-right:0}
+.nums b{display:block;font-weight:300;font-size:clamp(56px,6.4cqw,92px);line-height:1;letter-spacing:-.05em}
+.nums span{color:var(--mut)}
+footer .w{display:flex;justify-content:space-between;padding-block:32px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+@container (max-width:720px){.links{display:none}.hero .w{grid-template-columns:1fr}.p{grid-template-columns:1fr auto}.p span:nth-of-type(1){display:none}.nums{grid-template-columns:1fr}.nums div{border-right:0;border-bottom:1px solid var(--line);padding-left:0}}
+</style>
+<header><div class="w"><div class="logo">lumen</div><nav class="links"><span>Projekty</span><span>Studio</span><span>Ocenění</span></nav><span class="lnk">Napište nám</span></div></header>
+<section class="hero" style="padding:0"><div class="w"><div><h1>Stavíme<br>ticho.</h1><p>Architektonické studio z Prahy. Navrhujeme domy, ve kterých se dobře dýchá, myslí i spí.</p></div><div class="arch"><i class="a1"></i><i class="a2"></i><i class="a3"></i><i class="a4"></i><i class="a5"></i></div></div></section>
+<section class="w"><p class="label">Vybrané projekty</p>
+<div class="p">Vila Kunratice<span>Rezidence</span><span>2025</span></div>
+<div class="p">Knihovna Dejvice<span>Veřejná stavba</span><span>2024</span></div>
+<div class="p">Ateliér Holešovice<span>Rekonstrukce</span><span>2023</span></div>
+<div class="p">Dům u lesa<span>Rezidence</span><span>2022</span></div>
+</section>
+<section class="w" style="padding-top:0"><div class="nums"><div><b>64</b><span>dokončených projektů</span></div><div><b>12</b><span>ocenění</span></div><div><b>2011</b><span>rok založení</span></div></div></section>
+<footer><div class="w"><span>lumen studio</span><span>Praha</span></div></footer>
+</template>
+
+<script>
+  document.documentElement.classList.add("js");
+  const t = {
+    cs: {
+      navAbout: "O mně", navLangs: "Jazyky", navWork: "Práce", navDesigns: "Webdesigny", navCatalog: "Weby", navNow: "Právě teď", navQuotes: "Myšlenky", navContact: "Kontakt", menu: "Menu",
+      heroSub: "16 let. Designér a vývojář. <span>Praha.</span>",
+      heroHint: "Pohni myší. Klikni.",
+      aboutTitle: "O mně",
+      aboutText: "Je mi 16 a studuju na <button type=\"button\" class=\"hot\" data-peek=\"amazon\" aria-expanded=\"false\">gymnáziu AMAZON</button> v Praze. Spoluzaložil jsem <button type=\"button\" class=\"hot\" data-peek=\"webtix\" aria-expanded=\"false\">Webtix</button> a pracuju pro <button type=\"button\" class=\"hot\" data-peek=\"sellect\" aria-expanded=\"false\">Sellect</button>. Weby navrhuju i programuju, takže se mezi nápadem a výsledkem nic neztratí.",
+      likesLabel: "Baví mě", likes: ["weby", "design", "kód", "typografie", "detaily"], likesAll: "weby, design, kód a detaily",
+      peeks: {
+        amazon: ["logo-amazon.png", "Anglicko-české gymnázium AMAZON", "Soukromé gymnázium v Praze 1 zaměřené na angličtinu. Tady studuju."],
+        webtix: ["logo-webtix.png", "Webtix", "Webdesignové studio, které jsem spoluzaložil. Navrhujeme a stavíme weby pro klienty."],
+        sellect: ["logo-sellect.png", "Sellect", "Známý pražský obchod s limitovanými sneakery a streetwearem. Pracuju pro něj vedle školy."]
+      },
+      lblRole: "Designér / vývojář", lblAge: "Věk", lblMadeV: "Praha, CZ", lblLangs: "Jazyky", lblJob: "Práce",
+      langTitle: "Jazyky", cz: "Čeština", en: "Angličtina", de: "Němčina", native: "Rodilý",
+      workTitle: "Práce",
+      webtixDesc: "<b>Spoluzakladatel.</b> Webdesignové studio, které navrhuje a staví weby pro klienty, od prvního náčrtu po spuštění.",
+      sellectDesc: "<b>Vedle školy.</b> Známý pražský obchod s limitovanými sneakery a streetwearem.",
+      siteTitle: "Tenhle web", siteDesc: "Postavený od nuly, bez šablony: částice, galerie webů, menu i balíček karet.", sitePal: "Otevřít menu",
+      catT1: "Postavené", catT2: "weby",
+      catIntro: "Všechno, co jsem postavil. Živé weby běží na internetu, koncepty si otevřeš přímo tady.",
+      tagLive: "Živě", tagConcept: "Koncept", tagHere: "Právě tady",
+      fAll: "Vše", fLive: "Živé", fConcept: "Koncepty",
+      marq: ["Design", "Kód", "Typografie", "Pohyb", "Detail"],
+      kWebtix: "Web našeho studia. Katalog a konfigurátor webů na míru.", kPortfolio: "Moje portfolio. Od nuly, bez šablony.",
+      chip1: "Styl", chip2: "Barvy", chip3: "Písma",
+      cVisit: "Navštívit ↗", cOpen: "Otevřít", cHere: "Jsi tady",
+      nowTitle: "Právě teď",
+      b1: "Stavím", b1d: "Webtix a weby pro klienty",
+      b2: "Studuju", b2d: "Anglicko-české gymnázium AMAZON",
+      b3: "Pracuju", b3d: "Sellect, vedle školy",
+      quotesTitle: "Myšlenky", nextQuote: "Další",
+      contactTitle: "Napiš mi.",
+      boardLive: "Živě", mBase: "Základna", mTime: "Místní čas", mOpen: "Beru", mOpenV: "Weby, redesigny, spolupráce",
+      copy: "Kopírovat e-mail", copied: "E-mail zkopírován", selected: "E-mail je označený, zkopíruj ho", backTop: "Zpět nahoru",
+      back: "← Domů",
+      dLede: "Koncepty webů pro různé obory. Najeď myší a web se prohlédne sám. Kliknutím ho otevřeš celý.",
+      open: "Otevřít", desktop: "Počítač", mobile: "Mobil", close: "Zavřít",
+      cHorizont: "Cestovní kancelář", cSprint: "Běžecký klub", cDrop: "Kalendář sneaker dropů", cEcho: "Hudební festival", cLumen: "Architektonické studio",
+      palPlaceholder: "Kam chceš jít?", palEmpty: "Nic takového tu není.",
+      hSection: "Sekce", hPage: "Stránka", hAction: "Akce", hLang: "Jazyk", hPlay: "Hra",
+      switchLang: "Switch to English", scatter: "Rozfoukat jméno",
+      quotes: [
+        ["Těžká rozhodnutí, snadný život. Snadná rozhodnutí, těžký život.", "Jerzy Gregorek", "mistr světa ve vzpírání"],
+        ["Disciplína je svoboda.", "Jocko Willink", "bývalý Navy SEAL"],
+        ["Každý má plán, dokud nedostane ránu do pusy.", "Mike Tyson", "boxer"],
+        ["Inspirace je pro amatéry. My ostatní prostě přijdeme a pustíme se do práce.", "Chuck Close", "malíř"],
+        ["Co stojí v cestě, se stává cestou.", "Marcus Aurelius", "římský císař"],
+        ["Dřina porazí talent, když talent nedře.", "Tim Notke", "basketbalový trenér"],
+        ["Nejlepší cesta ven vede vždycky skrz.", "Robert Frost", "básník"],
+        ["Sedmkrát padni, osmkrát vstaň.", "Japonské přísloví", ""],
+        ["Buď tak dobrý, že tě nepůjde přehlédnout.", "Steve Martin", "komik"],
+        ["Kdo má své proč, snese téměř každé jak.", "Friedrich Nietzsche", "filozof"],
+        ["Častěji trpíme v představách než ve skutečnosti.", "Seneca", "filozof"],
+        ["Přes překážky ke hvězdám.", "Per aspera ad astra", "latinské rčení"]
+      ]
+    },
+    en: {
+      navAbout: "About", navLangs: "Languages", navWork: "Work", navDesigns: "Web designs", navCatalog: "Websites", navNow: "Right now", navQuotes: "Thoughts", navContact: "Contact", menu: "Menu",
+      heroSub: "16 years old. Designer and developer. <span>Prague.</span>",
+      heroHint: "Move the mouse. Click.",
+      aboutTitle: "About",
+      aboutText: "I'm 16 and I study at <button type=\"button\" class=\"hot\" data-peek=\"amazon\" aria-expanded=\"false\">Gymnázium AMAZON</button> in Prague. I co-founded <button type=\"button\" class=\"hot\" data-peek=\"webtix\" aria-expanded=\"false\">Webtix</button> and I work for <button type=\"button\" class=\"hot\" data-peek=\"sellect\" aria-expanded=\"false\">Sellect</button>. I design websites and code them too, so nothing gets lost between the idea and the result.",
+      likesLabel: "I'm into", likes: ["websites", "design", "code", "type", "details"], likesAll: "websites, design, code and details",
+      peeks: {
+        amazon: ["logo-amazon.png", "English-Czech Gymnázium AMAZON", "A private high school in Prague 1 with a focus on English. This is where I study."],
+        webtix: ["logo-webtix.png", "Webtix", "A web design studio I co-founded. We design and build websites for clients."],
+        sellect: ["logo-sellect.png", "Sellect", "A well-known Prague store for limited-edition sneakers and streetwear. I work for them alongside school."]
+      },
+      lblRole: "Designer / developer", lblAge: "Age", lblMadeV: "Prague, CZ", lblLangs: "Languages", lblJob: "Work",
+      langTitle: "Languages", cz: "Czech", en: "English", de: "German", native: "Native",
+      workTitle: "Work",
+      webtixDesc: "<b>Co-founder.</b> A web design studio that designs and builds websites for clients, from the first sketch to launch.",
+      sellectDesc: "<b>Alongside school.</b> A well-known Prague store for limited-edition sneakers and streetwear.",
+      siteTitle: "This website", siteDesc: "Built from scratch, no template: particles, a website gallery, menu and card deck.", sitePal: "Open the menu",
+      catT1: "Built", catT2: "websites",
+      catIntro: "Everything I've built. Live sites run on the web, concepts open right here.",
+      tagLive: "Live", tagConcept: "Concept", tagHere: "You're here",
+      fAll: "All", fLive: "Live", fConcept: "Concepts",
+      marq: ["Design", "Code", "Type", "Motion", "Detail"],
+      kWebtix: "Our studio's site. A catalog and configurator for custom websites.", kPortfolio: "My portfolio. From scratch, no template.",
+      chip1: "Style", chip2: "Colours", chip3: "Fonts",
+      cVisit: "Visit ↗", cOpen: "Open", cHere: "You're here",
+      nowTitle: "Right now",
+      b1: "Building", b1d: "Webtix and client websites",
+      b2: "Studying", b2d: "English-Czech Gymnázium AMAZON",
+      b3: "Working", b3d: "Sellect, alongside school",
+      quotesTitle: "Thoughts", nextQuote: "Next",
+      contactTitle: "Get in touch.",
+      boardLive: "Live", mBase: "Based in", mTime: "Local time", mOpen: "Open to", mOpenV: "Websites, redesigns, collaborations",
+      copy: "Copy email", copied: "Email copied", selected: "Email selected, copy it now", backTop: "Back to top",
+      back: "← Home",
+      dLede: "Website concepts for different industries. Hover to let a site scroll itself, click to open it in full.",
+      open: "Open", desktop: "Desktop", mobile: "Mobile", close: "Close",
+      cHorizont: "Travel agency", cSprint: "Running club", cDrop: "Sneaker release calendar", cEcho: "Music festival", cLumen: "Architecture studio",
+      palPlaceholder: "Where to?", palEmpty: "Nothing like that here.",
+      hSection: "Section", hPage: "Page", hAction: "Action", hLang: "Language", hPlay: "Play",
+      switchLang: "Přepnout do češtiny", scatter: "Blow my name apart",
+      quotes: [
+        ["Hard choices, easy life. Easy choices, hard life.", "Jerzy Gregorek", "world weightlifting champion"],
+        ["Discipline equals freedom.", "Jocko Willink", "former Navy SEAL"],
+        ["Everybody has a plan until they get punched in the mouth.", "Mike Tyson", "boxer"],
+        ["Inspiration is for amateurs. The rest of us just show up and get to work.", "Chuck Close", "painter"],
+        ["What stands in the way becomes the way.", "Marcus Aurelius", "Roman emperor"],
+        ["Hard work beats talent when talent doesn't work hard.", "Tim Notke", "basketball coach"],
+        ["The best way out is always through.", "Robert Frost", "poet"],
+        ["Fall seven times, stand up eight.", "Japanese proverb", ""],
+        ["Be so good they can't ignore you.", "Steve Martin", "comedian"],
+        ["He who has a why to live can bear almost any how.", "Friedrich Nietzsche", "philosopher"],
+        ["We suffer more often in imagination than in reality.", "Seneca", "philosopher"],
+        ["Through hardships to the stars.", "Per aspera ad astra", "Latin saying"]
+      ]
+    }
+  };
+  const CONCEPTS = { horizont: ["Horizont", "horizont.test", "cHorizont"], sprint: ["Sprint", "sprint.test", "cSprint"], drop: ["Drop Radar", "dropradar.test", "cDrop"], echo: ["Echo", "echo.test", "cEcho"], lumen: ["Lumen", "lumen.test", "cLumen"] };
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} }
+  };
+  let lang = "cs";
+  const loc = () => lang === "cs" ? "cs-CZ" : "en-US";
+
+  /* ---------- Page glow follows the cursor ---------- */
+  if (fine && !reduce) {
+    const glow = $(".glow");
+    addEventListener("pointermove", e => { glow.style.setProperty("--gx", e.clientX + "px"); glow.style.setProperty("--gy", e.clientY + "px"); }, { passive: true });
+  }
+
+  /* ---------- Particle name ----------
+     The name is sampled into dots. They fly in from the left, breathe, get pushed away by the pointer (which
+     also magnifies and tints them), catch a light sweep every few seconds and ripple out from every click.
+     Behind them sits a faint outline copy of the name that drifts against the pointer for depth. */
+  const field = (() => {
+    const cv = $("#field"), cx = cv.getContext("2d"), hero = $(".hero");
+    const FONT = 'Unbounded, "Arial Black", sans-serif';
+    const LINES = ["RICHARD", "BUCHNÍČEK"];
+    const css = n => getComputedStyle(hero).getPropertyValue(n).trim();
+    const ink = css("--ink"), acc = "#FB4B4E";
+    let W = 0, H = 0, FS = 100, gut = 16, b1 = 0, lh = 0, pts = [], size = 2, raf = 0, ready = false, t0 = 0;
+    const m = { x: -1e4, y: -1e4, sx: -1e4, sy: -1e4, t: -1e4 };
+    const rings = [];
+
+    function layout() {
+      const r = cv.getBoundingClientRect();
+      W = r.width; H = r.height;
+      if (!W || !H) return;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const off = document.createElement("canvas");
+      off.width = Math.ceil(W); off.height = Math.ceil(H);
+      const o = off.getContext("2d", { willReadFrequently: true });
+      gut = Math.max(16, (W - 1280) / 2);
+      o.font = `800 100px ${FONT}`;
+      const wmax = Math.max(...LINES.map(s => o.measureText(s).width));
+      const fs = FS = Math.min(100 * (W - gut * 2) / wmax, H * 0.27);
+      lh = fs * 1.14; b1 = H * 0.44 - fs * 0.2;
+      o.font = `800 ${fs}px ${FONT}`;
+      o.fillStyle = "#fff";
+      LINES.forEach((s, i) => o.fillText(s, gut, b1 + i * lh));
+      const data = o.getImageData(0, 0, off.width, off.height).data;
+      let gap = Math.max(1.6, fs / 62), arr;
+      for (;;) {
+        arr = [];
+        for (let y = 0; y < off.height; y += gap)
+          for (let x = 0; x < off.width; x += gap) {
+            const xi = x | 0, yi = y | 0;
+            if (data[(yi * off.width + xi) * 4 + 3] > 140) arr.push(xi, yi);
+          }
+        if (arr.length / 2 > 14000) gap *= 1.06; else break;
+      }
+      size = Math.max(1, gap * .58);
+      const old = pts, first = !old.length;
+      pts = [];
+      for (let i = 0; i < arr.length; i += 2) {
+        const p = old[i / 2], ox = arr[i], oy = arr[i + 1];
+        pts.push({
+          ox, oy,
+          x: p ? p.x : (first ? -W * (.1 + Math.random() * .5) : Math.random() * W),
+          y: p ? p.y : oy + (Math.random() - .5) * H * .9,
+          vx: 0, vy: 0,
+          d: (ox - gut) / W * 900 + Math.random() * 380,
+          dim: Math.random() < .14, z: Math.random() * 2 - 1, tint: Math.min(3, Math.floor(Math.max(0, (ox - gut) / (W - gut * 2)) * 4 + Math.random() * .6))
+        });
+      }
+      if (first) t0 = performance.now();
+      if (reduce) { pts.forEach(p => { p.x = p.ox; p.y = p.oy; }); drawStatic(); }
+    }
+    function ghost(dx, dy, a) {
+      cx.save();
+      cx.font = `800 ${FS}px ${FONT}`;
+      cx.lineWidth = 1;
+      cx.strokeStyle = `rgba(114,114,171,${a * 1.4})`;
+      LINES.forEach((s, i) => cx.strokeText(s, gut + dx, b1 + i * lh + dy));
+      cx.restore();
+    }
+    function drawStatic() {
+      cx.clearRect(0, 0, W, H);
+      ghost(FS * .06, FS * .06, .16);
+      cx.fillStyle = ink;
+      for (const p of pts) cx.fillRect(p.x, p.y, size, size);
+    }
+    // Dots are drawn in a few colour buckets so the canvas switches fill style only a handful of times per frame.
+    const B = [[], [], [], [], []], T = [[], [], [], []], WAIT = [];
+    const sprite = c => { const k = document.createElement("canvas"); k.width = k.height = 16; const g = k.getContext("2d"); g.fillStyle = c; g.beginPath(); g.arc(8, 8, 7.2, 0, Math.PI * 2); g.fill(); k.c = c; return k; };
+    // Round sprites look best; if this device cannot keep up, drop to plain squares.
+    let ema = 16, frames = 0, squares = false, lastF = 0;
+    const SPR = { tint: [ink, "#d2ddd6", "#bccac1", "#A0B2A6"].map(sprite), white: sprite("#ffffff"), acc: sprite(acc), hot: sprite("#ffb3b4") };
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      const age = now - t0;
+      if (lastF && !squares) { ema = ema * .95 + Math.min(100, now - lastF) * .05; if (++frames > 90 && ema > 24) squares = true; }
+      lastF = now;
+      m.sx += (m.x - m.sx) * .12; m.sy += (m.y - m.sy) * .12;
+      let mx = m.sx, my = m.sy, R = Math.max(80, FS * .95), F = 6;
+      const idle = now - m.t > 2600;
+      if (idle) { mx = W * (.5 + .42 * Math.sin(now * .00038)); my = H * (.44 + .14 * Math.sin(now * .00087)); R = Math.max(30, FS * .5); F = 2; }
+      const R2 = R * R, L2 = (R * .7) ** 2;
+      // light sweep: a slanted band that crosses the name every 6 s
+      const sweep = ((now % 6000) / 6000) * (W + H) * 1.4 - H * .7, band = FS * .5;
+      // ripples
+      for (let i = rings.length - 1; i >= 0; i--) if (now - rings[i].t > 1600) rings.splice(i, 1);
+
+      cx.clearRect(0, 0, W, H);
+      // pointer halo
+      if (!idle) {
+        const g = cx.createRadialGradient(mx, my, 0, mx, my, R * 1.6);
+        g.addColorStop(0, "rgba(251,75,78,.13)"); g.addColorStop(1, "rgba(251,75,78,0)");
+        cx.fillStyle = g; cx.fillRect(mx - R * 1.6, my - R * 1.6, R * 3.2, R * 3.2);
+      }
+      const px = m.t > 0 ? (m.sx / W - .5) : Math.sin(now * .0003) * .3, py = m.t > 0 ? (m.sy / H - .5) : Math.cos(now * .0004) * .3;
+      ghost(-px * FS * .18 + FS * .05, -py * FS * .14 + FS * .05, Math.min(.2, age / 6000));
+
+      for (const b of B) b.length = 0;
+      for (const b of T) b.length = 0;
+      WAIT.length = 0;
+      for (const p of pts) {
+        if (age < p.d) { WAIT.push(p); continue; }
+        const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+        if (d2 < R2) { const d = Math.sqrt(d2) || 1, f = (1 - d2 / R2) * F; p.vx += dx / d * f; p.vy += dy / d * f; }
+        for (const r of rings) {
+          const rr = (now - r.t) * .9, ex = p.x - r.x, ey = p.y - r.y, dd = Math.sqrt(ex * ex + ey * ey) || 1;
+          if (Math.abs(dd - rr) < 26) { const k = 3.2 * (1 - (now - r.t) / 1600); p.vx += ex / dd * k; p.vy += ey / dd * k; }
+        }
+        const ty = p.oy + Math.sin(p.ox * .011 + now * .0014) * Math.max(.6, FS * .012);
+        p.vx = (p.vx + (p.ox - p.x) * .05) * .85;
+        p.vy = (p.vy + (ty - p.y) * .05) * .85;
+        p.x += p.vx; p.y += p.vy;
+        const sp = p.vx * p.vx + p.vy * p.vy;
+        if (sp > 9) B[4].push(p);
+        else if (sp > 1.6 || (!idle && d2 < L2)) B[3].push(p);
+        else if (Math.abs(p.ox + p.oy * .6 - sweep) < band) B[2].push(p);
+        else if (p.dim) B[1].push(p);
+        else T[p.tint].push(p);
+      }
+      // round dots from pre-rendered sprites; each dot sits at its own depth and shifts with the pointer
+      const ox = (m.t > 0 && !idle ? (m.sx / W - .5) : 0) * FS * .045;
+      const oy = (m.t > 0 && !idle ? (m.sy / H - .5) : 0) * FS * .035;
+      const draw = (list, spr, a, k) => {
+        if (!list.length) return;
+        cx.globalAlpha = a;
+        if (squares) { const s2 = size * k, h = s2 / 2; cx.fillStyle = spr.c; for (const p of list) cx.fillRect(p.x - h + ox * p.z, p.y - h + oy * p.z, s2, s2); return; }
+        const s2 = size * k * 1.25, h = s2 / 2;
+        for (const p of list) cx.drawImage(spr, p.x - h + ox * p.z, p.y - h + oy * p.z, s2, s2);
+      };
+      draw(WAIT, SPR.acc, .14, 1);
+      for (let k = 0; k < 4; k++) draw(T[k], SPR.tint[k], 1, 1);
+      draw(B[1], SPR.tint[0], .34, 1);
+      draw(B[2], SPR.white, 1, 1.2);
+      draw(B[3], SPR.acc, 1, 1.35);
+      draw(B[4], SPR.hot, 1, 1.3);
+      cx.globalAlpha = 1;
+      for (const r of rings) {
+        const k = Math.max(0, now - r.t) / 1600;
+        cx.beginPath(); cx.arc(r.x, r.y, Math.max(0, now - r.t) * .9, 0, Math.PI * 2);
+        cx.strokeStyle = `rgba(251,75,78,${(1 - k) * .6})`; cx.lineWidth = 1.5; cx.stroke();
+      }
+    }
+    const start = () => { if (!raf && ready && !reduce) raf = requestAnimationFrame(frame); };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; lastF = 0; };
+    function burst(x = W * .4, y = H * .42) {
+      if (reduce) return;
+      rings.push({ x, y, t: performance.now() });
+      for (const p of pts) {
+        const a = Math.atan2(p.y - y, p.x - x) + (Math.random() - .5) * .8, s = 10 + Math.random() * 28;
+        p.vx += Math.cos(a) * s; p.vy += Math.sin(a) * s;
+      }
+    }
+    function init() {
+      if (ready) return;
+      ready = true;
+      layout();
+      new IntersectionObserver(([e]) => e.isIntersecting ? start() : stop()).observe(hero);
+      let q = 0;
+      new ResizeObserver(() => { cancelAnimationFrame(q); q = requestAnimationFrame(layout); }).observe(cv);
+      if (reduce) return;
+      hero.addEventListener("pointermove", e => {
+        const r = cv.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top;
+        if (performance.now() - m.t > 2600) { m.sx = m.x; m.sy = m.y; }
+        m.t = performance.now();
+      });
+      hero.addEventListener("pointerleave", () => { m.x = m.y = m.sx = m.sy = -1e4; m.t = -1e4; });
+      cv.addEventListener("click", e => {
+        const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        rings.push({ x, y, t: performance.now() });
+        for (const p of pts) { const dx = p.x - x, dy = p.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1; if (d < FS * 2.2) { const k = (1 - d / (FS * 2.2)) * 26; p.vx += dx / d * k; p.vy += dy / d * k; } }
+      });
+    }
+    document.fonts.load("800 100px Unbounded").then(init, init);
+    setTimeout(init, 2500);
+    return { burst };
+  })();
+
+  /* ---------- Text scramble ---------- */
+  const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*+/<>=";
+  function scramble(el, to, dur = 650) {
+    if (reduce) { el.textContent = to; return; }
+    cancelAnimationFrame(el._s);
+    const t0 = performance.now(), len = to.length;
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      let out = "";
+      for (let i = 0; i < len; i++) out += i / len < k || to[i] === " " ? to[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      el.textContent = out;
+      if (k < 1) el._s = requestAnimationFrame(step);
+    };
+    el._s = requestAnimationFrame(step);
+  }
+  const headIO = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { scramble(e.target, e.target.textContent); headIO.unobserve(e.target); }
+  }), { threshold: .6 });
+  $$("[data-scramble]").forEach(h => headIO.observe(h));
+
+  /* ---------- About: hover cards and the rotating "I'm into" word ---------- */
+  const peek = $("#peek");
+  function showPeek(btn, x, y) {
+    const [logo, title, body] = t[lang].peeks[btn.dataset.peek];
+    peek.innerHTML = `<div class="pk-logo"><img src="${logo}" alt=""></div><b>${title}</b><p>${body}</p>`;
+    placePeek(x, y);
+    peek.classList.add("on");
+    $$(".hot").forEach(b => b.setAttribute("aria-expanded", b === btn));
+  }
+  function placePeek(x, y) {
+    const w = peek.offsetWidth, h = peek.offsetHeight;
+    let px = x + 18, py = y + 18;
+    if (px + w > innerWidth - 12) px = x - w - 18;
+    if (py + h > innerHeight - 12) py = y - h - 18;
+    peek.style.transform = `translate(${Math.max(12, px)}px, ${Math.max(12, py)}px)`;
+  }
+  function hidePeek() { peek.classList.remove("on"); $$(".hot").forEach(b => b.setAttribute("aria-expanded", "false")); }
+  const about = $("#aboutText");
+  about.addEventListener("pointerover", e => { const b = e.target.closest(".hot"); if (b && e.pointerType === "mouse") showPeek(b, e.clientX, e.clientY); });
+  about.addEventListener("pointermove", e => { if (e.target.closest(".hot") && e.pointerType === "mouse") placePeek(e.clientX, e.clientY); });
+  about.addEventListener("pointerout", e => { if (e.target.closest(".hot") && e.pointerType === "mouse") hidePeek(); });
+  about.addEventListener("click", e => {
+    const b = e.target.closest(".hot"); if (!b) return;
+    if (b.getAttribute("aria-expanded") === "true" && !fine) return hidePeek();
+    const r = b.getBoundingClientRect(); showPeek(b, r.left - 18, r.bottom);
+  });
+  about.addEventListener("focusin", e => { const b = e.target.closest(".hot"); if (b && b.matches(":focus-visible")) { const r = b.getBoundingClientRect(); showPeek(b, r.left - 18, r.bottom); } });
+  about.addEventListener("focusout", hidePeek);
+  addEventListener("scroll", () => { if (!fine) hidePeek(); }, { passive: true });
+
+  const rot = $("#rot");
+  let rotI = 0, rotT = 0;
+  new IntersectionObserver(([e]) => {
+    clearInterval(rotT);
+    if (e.isIntersecting && !reduce) rotT = setInterval(() => { const w = t[lang].likes; rotI = (rotI + 1) % w.length; scramble(rot, w[rotI], 520); }, 2300);
+  }, { threshold: .5 }).observe(rot);
+
+  /* ---------- Label tilt and sheen ---------- */
+  const label = $("#label");
+  if (fine && !reduce) {
+    label.addEventListener("pointermove", e => {
+      const r = label.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      label.style.setProperty("--ry", (px - .5) * 16 + "deg");
+      label.style.setProperty("--rx", (py - .5) * -16 + "deg");
+      label.style.setProperty("--lx", px * 100 + "%");
+      label.style.setProperty("--ly", py * 100 + "%");
+      label.style.setProperty("--lo", 1);
+    });
+    label.addEventListener("pointerleave", () => { label.style.setProperty("--rx", "0deg"); label.style.setProperty("--ry", "0deg"); label.style.setProperty("--lo", 0); });
+  }
+
+  /* ---------- Languages: appear, then say hi ---------- */
+  function splitChars(h) { h.innerHTML = [...h.textContent].map((c, i) => `<span class="ch" style="--c:${i}">${c === " " ? "&nbsp;" : c}</span>`).join(""); }
+  const langIO = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); langIO.unobserve(e.target); }
+  }), { threshold: .3 });
+  $$(".lrow").forEach(row => {
+    langIO.observe(row);
+    const h = $("h3", row);
+    const hi = () => { row.classList.add("on"); scramble(h, row.dataset.greet, 450); };
+    const bye = () => { row.classList.remove("on"); scramble(h, t[lang][row.dataset.name], 450); };
+    row.addEventListener("pointerenter", e => e.pointerType === "mouse" && row.classList.contains("in") && hi());
+    row.addEventListener("pointerleave", e => e.pointerType === "mouse" && row.classList.contains("on") && bye());
+    row.addEventListener("focus", () => row.matches(":focus-visible") && hi());
+    row.addEventListener("blur", () => row.classList.contains("on") && bye());
+    row.addEventListener("click", e => { if (e.pointerType !== "mouse") row.classList.contains("on") ? bye() : hi(); });
+  });
+
+  /* ---------- Spotlight cards ---------- */
+  $$(".card").forEach(c => c.addEventListener("pointermove", e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", e.clientX - r.left + "px");
+    c.style.setProperty("--my", e.clientY - r.top + "px");
+  }));
+
+  /* ---------- Right now: the board flips into place ---------- */
+  const boardIO = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    boardIO.disconnect();
+    $$(".b-row", e.target).forEach((row, i) => setTimeout(() => $$("span", row).forEach(s => scramble(s, s.textContent, 700)), i * 130));
+  }, { threshold: .4 });
+  boardIO.observe($("#board"));
+
+  /* ---------- Quote deck ---------- */
+  const deck = $("#deck");
+  let order = [], qcards = [];
+  function buildDeck() {
+    qcards = t[lang].quotes.map(([q, who, role]) => {
+      const f = document.createElement("figure");
+      f.className = "qc";
+      f.innerHTML = `<blockquote>${q}</blockquote><figcaption><b>${who}</b>${role ? ", " + role : ""}</figcaption>`;
+      return f;
+    });
+    deck.replaceChildren(...qcards);
+    order = qcards.map((_, i) => i);
+    layoutDeck();
+  }
+  function layoutDeck() {
+    order.forEach((idx, pos) => {
+      const c = qcards[idx];
+      c.style.zIndex = qcards.length - pos;
+      c.style.opacity = pos < 3 ? 1 - pos * .25 : 0;
+      c.style.transform = pos ? `translateY(${pos * 16}px) scale(${1 - pos * .045}) rotate(${pos % 2 ? -3 : 2.5}deg)` : "rotate(-1deg)";
+      c.style.pointerEvents = pos ? "none" : "auto";
+      c.setAttribute("aria-hidden", pos ? "true" : "false");
+    });
+  }
+  function throwTop(dir = 1) {
+    const c = qcards[order[0]];
+    c.style.transform = `translateX(${dir * 130}%) rotate(${dir * 20}deg)`;
+    c.style.opacity = 0;
+    setTimeout(() => {
+      order.push(order.shift());
+      c.style.transition = "none";
+      layoutDeck();
+      c.offsetWidth;
+      c.style.transition = "";
+    }, reduce ? 0 : 360);
+  }
+  let qdrag = null;
+  deck.addEventListener("pointerdown", e => {
+    const c = e.target.closest(".qc"); if (!c || c !== qcards[order[0]]) return;
+    qdrag = { c, x: e.clientX, dx: 0 };
+    c.setPointerCapture(e.pointerId);
+    c.classList.add("dragging");
+  });
+  deck.addEventListener("pointermove", e => {
+    if (!qdrag) return;
+    qdrag.dx = e.clientX - qdrag.x;
+    qdrag.c.style.transform = `translateX(${qdrag.dx}px) rotate(${qdrag.dx * .06}deg)`;
+  });
+  const endDrag = () => {
+    if (!qdrag) return;
+    qdrag.c.classList.remove("dragging");
+    Math.abs(qdrag.dx) > 90 ? throwTop(Math.sign(qdrag.dx)) : layoutDeck();
+    qdrag = null;
+  };
+  deck.addEventListener("pointerup", endDrag);
+  deck.addEventListener("pointercancel", endDrag);
+  $("#qnext").addEventListener("click", () => throwTop(1));
+
+  /* ---------- Copy and toast ---------- */
+  const toast = $("#toast");
+  let toastT = 0;
+  function say(msg) { toast.textContent = msg; toast.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove("on"), 2200); }
+  async function copyEmail() {
+    const addr = $("#addr");
+    try { await navigator.clipboard.writeText(addr.textContent); say(t[lang].copied); }
+    catch {
+      const r = document.createRange(); r.selectNodeContents(addr);
+      getSelection().removeAllRanges(); getSelection().addRange(r);
+      say(t[lang].selected);
+    }
+  }
+  $("#copy").addEventListener("click", copyEmail);
+  if (fine && !reduce) $$(".magnet").forEach(el => {
+    el.addEventListener("pointermove", e => {
+      const r = el.getBoundingClientRect();
+      el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .3}px, ${(e.clientY - r.top - r.height / 2) * .4}px)`;
+    });
+    el.addEventListener("pointerleave", () => el.style.transform = "");
+  });
+
+  /* ---------- Web designs: live previews and a full viewer ---------- */
+  function mountConcept(host, id) {
+    const root = host.shadowRoot || host.attachShadow({ mode: "open" });
+    root.replaceChildren(document.getElementById("tpl-" + id).content.cloneNode(true));
+  }
+  const viewer = $("#viewer"), vFrame = $("#vFrame");
+  function setDev(d) {
+    viewer.dataset.dev = d;
+    $$("[data-dev]").forEach(b => b.setAttribute("aria-pressed", b.dataset.dev === d));
+    vFrame.scrollTop = 0;
+  }
+  function openViewer(id) {
+    const [name, url] = CONCEPTS[id];
+    $("#vName").textContent = name;
+    $("#vUrl").textContent = url;
+    mountConcept($("#vHost"), id);
+    setDev("desktop");
+    viewer.showModal();
+    vFrame.scrollTop = 0;
+  }
+  $$("[data-dev]").forEach(b => b.addEventListener("click", () => setDev(b.dataset.dev)));
+  $("#vClose").addEventListener("click", () => viewer.close());
+
+  /* ---------- Catalog: live previews inside browser frames ---------- */
+  const tiles = $$(".gal .tile");
+  const fit = tile => { const v = $(".b-view", tile); tile._s = v.clientWidth / 1280; $(".b-page", tile)?.style.setProperty("--s", tile._s); };
+  const ro = new ResizeObserver(es => es.forEach(e => fit(e.target.closest(".tile"))));
+  tiles.filter(x => x.dataset.concept).forEach(tile => {
+    const page = $(".b-page", tile), view = $(".b-view", tile);
+    mountConcept(page, tile.dataset.concept);
+    fit(tile);
+    ro.observe(view);
+    if (fine && !reduce) {
+      tile.addEventListener("pointerenter", () => {
+        const dist = Math.max(0, page.offsetHeight - view.clientHeight / tile._s);
+        page.style.transitionDuration = Math.max(1.2, dist / 420) + "s";
+        page.style.setProperty("--y", -dist + "px");
+      });
+      tile.addEventListener("pointerleave", () => { page.style.transitionDuration = ".9s"; page.style.setProperty("--y", "0px"); });
+    }
+    tile.addEventListener("click", e => { e.preventDefault(); openViewer(tile.dataset.concept); });
+  });
+  const tileIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); tileIO.unobserve(e.target); } }), { threshold: .12 });
+  tiles.forEach(x => tileIO.observe(x));
+
+  let catF = "all";
+  function renderCat() {
+    const n = f => tiles.filter(x => f === "all" || x.dataset.kind === f).length;
+    $("#nAll").textContent = n("all"); $("#nLive").textContent = n("live"); $("#nConcept").textContent = n("concept");
+    $("#nSup").textContent = String(n(catF)).padStart(2, "0");
+  }
+  $$("#catFilters button").forEach(b => b.addEventListener("click", () => {
+    catF = b.dataset.f;
+    $$("#catFilters button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    tiles.forEach(x => { x.hidden = !(catF === "all" || x.dataset.kind === catF); if (!x.hidden) x.classList.add("in"); });
+    renderCat();
+  }));
+
+  /* ---------- Routing: the old designs page now lives in the catalog ---------- */
+  function route() {
+    const h = location.hash === "#webdesigny" ? "#catalog" : location.hash;
+    const target = h && h !== "#" ? document.querySelector(h) : null;
+    if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: "auto" }));
+  }
+  addEventListener("hashchange", route);
+  const go = hash => { if (location.hash === hash) route(); else location.hash = hash; };
+
+  /* ---------- Command menu ---------- */
+  const pal = $("#palette"), palq = $("#palq"), pall = $("#pall");
+  let sel = 0, shown = [];
+  function commands() {
+    const d = t[lang];
+    return [
+      [d.navAbout, d.hSection, () => go("#about")],
+      [d.navLangs, d.hSection, () => go("#langs")],
+      [d.navWork, d.hSection, () => go("#work")],
+      [d.navCatalog, d.hSection, () => go("#catalog")],
+      [d.navNow, d.hSection, () => go("#now")],
+      [d.navQuotes, d.hSection, () => go("#quotes")],
+      [d.navContact, d.hSection, () => go("#contact")],
+      [d.copy, d.hAction, copyEmail],
+      [d.nextQuote, d.hAction, () => { go("#quotes"); setTimeout(() => throwTop(1), 400); }],
+      [d.switchLang, d.hLang, () => setLang(lang === "cs" ? "en" : "cs")],
+      [d.scatter, d.hPlay, () => { go("#top"); setTimeout(() => field.burst(), 450); }]
+    ];
+  }
+  function renderPal() {
+    const q = palq.value.trim().toLowerCase();
+    shown = commands().filter(c => c[0].toLowerCase().includes(q));
+    sel = Math.min(sel, Math.max(0, shown.length - 1));
+    pall.innerHTML = shown.length
+      ? shown.map((c, i) => `<li role="option" id="pc${i}" aria-selected="${i === sel}"><span>${c[0]}</span><small>${c[1]}</small></li>`).join("")
+      : `<li class="empty">${t[lang].palEmpty}</li>`;
+    palq.setAttribute("aria-activedescendant", shown.length ? `pc${sel}` : "");
+    $(`#pc${sel}`, pall)?.scrollIntoView({ block: "nearest" });
+  }
+  function openPal() {
+    if (pal.open) return;
+    palq.value = ""; palq.placeholder = t[lang].palPlaceholder; sel = 0; renderPal();
+    pal.showModal(); palq.focus();
+  }
+  function run(i) { const c = shown[i]; if (!c) return; pal.close(); c[2](); }
+  palq.addEventListener("input", () => { sel = 0; renderPal(); });
+  palq.addEventListener("keydown", e => {
+    const n = Math.max(1, shown.length);
+    if (e.key === "ArrowDown") { e.preventDefault(); sel = (sel + 1) % n; renderPal(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); sel = (sel - 1 + n) % n; renderPal(); }
+    else if (e.key === "Enter") { e.preventDefault(); run(sel); }
+  });
+  pall.addEventListener("click", e => { const li = e.target.closest("li[id]"); if (li) run(+li.id.slice(2)); });
+  pal.addEventListener("click", e => { if (e.target === pal) pal.close(); });
+  document.addEventListener("keydown", e => {
+    if (viewer.open) return;
+    if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) { e.preventDefault(); pal.open ? pal.close() : openPal(); }
+    else if (e.key === "/" && !pal.open && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); openPal(); }
+  });
+  $("#openPal").addEventListener("click", openPal);
+  $("#sitePal").addEventListener("click", openPal);
+
+  /* ---------- Language ---------- */
+  function setLang(l) {
+    lang = l;
+    const d = t[l];
+    document.documentElement.lang = l;
+    $$("[data-i18n]").forEach(el => el.textContent = d[el.dataset.i18n]);
+    $$("[data-i18n-html]").forEach(el => el.innerHTML = d[el.dataset.i18nHtml]);
+    $$(".lrow").forEach(r => { r.classList.remove("on"); splitChars($("h3", r)); });
+    rot.textContent = reduce ? d.likesAll : d.likes[rotI % d.likes.length];
+    $("#openPal").textContent = fine ? (isMac ? "⌘K" : "Ctrl K") : d.menu;
+    $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+    hidePeek();
+    buildDeck();
+    renderCat();
+    $("#marq").innerHTML = Array(8).fill(d.marq.map(w => w + "<i>/</i>").join("")).join("");
+    if (typeof tick === "function") tick();
+    store.set("lang", l);
+  }
+  $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+  $("#year").textContent = new Date().getFullYear();
+  /* Prague time, ticking */
+  const tick = () => {
+    const v = new Date().toLocaleTimeString(loc(), { timeZone: "Europe/Prague", hour: "2-digit", minute: "2-digit" });
+    $$("[data-clock]").forEach(el => el.textContent = (lang === "cs" ? "Praha " : "Prague ") + v);
+  };
+  tick(); setInterval(tick, 15000);
+  setLang(store.get("lang") || (/^(cs|sk)/.test(navigator.language) ? "cs" : "en"));
+  route();
+</script>
+</body>
+</html>
+
+</body></html>
